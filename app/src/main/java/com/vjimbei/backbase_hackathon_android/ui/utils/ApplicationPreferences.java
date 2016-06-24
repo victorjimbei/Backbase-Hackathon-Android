@@ -1,8 +1,9 @@
 package com.vjimbei.backbase_hackathon_android.ui.utils;
 
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 
-import com.google.inject.Inject;
 import com.vjimbei.backbase_hackathon_android.BuildConfig;
 
 /**
@@ -14,12 +15,10 @@ public class ApplicationPreferences {
     private static final String UNLOCK_LAST_DATE = APP_PACKAGE + "LAST_UNLOCK_DATE";
     private static final String UNLOCK_COUNT = APP_PACKAGE + "UNLOCK_COUNT";
 
-
-    @Inject
     private SharedPreferences mPreferences;
 
-    @Inject
-    public ApplicationPreferences() {
+    public ApplicationPreferences(Context context) {
+        mPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
     public String getUnlockLastDate() {
@@ -34,7 +33,7 @@ public class ApplicationPreferences {
 
     public void setUnlockCount(int count) {
         SharedPreferences.Editor editor = mPreferences.edit();
-        editor.putInt(UNLOCK_LAST_DATE, count);
+        editor.putInt(UNLOCK_COUNT, count);
         editor.apply();
     }
 
