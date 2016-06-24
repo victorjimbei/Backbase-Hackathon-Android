@@ -3,12 +3,17 @@ package com.vjimbei.backbase_hackathon_android.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by vjimbei on 6/24/2016.
  */
 public class Account implements Parcelable {
+
+    @SerializedName("id")
     private long id;
     private long userId;
+    @SerializedName("amount")
     private double amount;
     private String bankName;
     private String accountType;

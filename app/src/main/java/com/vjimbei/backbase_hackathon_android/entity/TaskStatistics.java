@@ -3,21 +3,34 @@ package com.vjimbei.backbase_hackathon_android.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.j256.ormlite.field.DatabaseField;
+
 public class TaskStatistics implements Parcelable{
 
+    @DatabaseField(id = true, columnName = "statisticsId")
     private long id;
+    @DatabaseField(columnName = "taskId")
+    private long taskId;
+    @DatabaseField(columnName = "date")
     private String date;
+    @DatabaseField(columnName = "milestoneLimit")
     private long milestoneLimit;
+    @DatabaseField(columnName = "milestoneValue")
     private long milestoneValue;
+    @DatabaseField(foreign = true, foreignAutoRefresh = true, columnName = "task")
+    private transient Task task;
 
     public TaskStatistics() {
     }
 
+
     protected TaskStatistics(Parcel in) {
         id = in.readLong();
+        taskId = in.readLong();
         date = in.readString();
         milestoneLimit = in.readLong();
         milestoneValue = in.readLong();
+        task = in.readParcelable(Task.class.getClassLoader());
     }
 
     public static final Creator<TaskStatistics> CREATOR = new Creator<TaskStatistics>() {
@@ -64,6 +77,22 @@ public class TaskStatistics implements Parcelable{
         this.milestoneValue = milestoneValue;
     }
 
+    public long getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(long taskId) {
+        this.taskId = taskId;
+    }
+
+    public Task getTask() {
+        return task;
+    }
+
+    public void setTask(Task task) {
+        this.task = task;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -72,8 +101,10 @@ public class TaskStatistics implements Parcelable{
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeLong(id);
+        parcel.writeLong(taskId);
         parcel.writeString(date);
         parcel.writeLong(milestoneLimit);
         parcel.writeLong(milestoneValue);
+        parcel.writeParcelable(task, i);
     }
 }

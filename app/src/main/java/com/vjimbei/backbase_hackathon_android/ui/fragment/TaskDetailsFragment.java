@@ -19,7 +19,7 @@ import com.vjimbei.backbase_hackathon_android.entity.Task;
 public class TaskDetailsFragment extends Fragment implements EditTaskFragment.OnTaskUpdated{
 
     private static final String ARGS_TASK = "args.task.details";
-    private static final int DIALOG_FRAGMENT = 010;
+    private static final int DIALOG_FRAGMENT = 112;
 
     private TextView title;
     private TextView status;

@@ -3,30 +3,52 @@ package com.vjimbei.backbase_hackathon_android.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
+
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
-public class Task implements Parcelable{
-    private int id;
+public class Task implements Parcelable {
+    @DatabaseField(id = true, columnName = "taskId")
+    private long id;
+    @DatabaseField(columnName = "userId")
+    private long userId;
+    @DatabaseField(columnName = "title")
     private String title;
+    @DatabaseField(columnName = "description")
     private String description;
+    @DatabaseField(columnName = "revenue")
     private double revenue;
+    @DatabaseField(columnName = "currentMilestoneLimit")
     private long currentMilestoneLimit;
+    @DatabaseField(columnName = "milestoneUnit")
     private String milestoneUnits;
+    @DatabaseField(columnName = "status")
     private String status;
-    private List<TaskStatistics> taskStatisticsList;
+    @DatabaseField(columnName = "goodSide")
+    private String goodSide;
+    @ForeignCollectionField(foreignFieldName = "taskStatistics", columnName = "statistics")
+    private Collection<TaskStatistics> taskStatisticsList;
+    @DatabaseField(columnName = "isLoadedToServer")
+    private boolean isLoadedToServer;
 
     public Task() {
     }
 
     protected Task(Parcel in) {
-        id = in.readInt();
+        id = in.readLong();
+        userId = in.readLong();
         title = in.readString();
         description = in.readString();
         revenue = in.readDouble();
         currentMilestoneLimit = in.readLong();
         milestoneUnits = in.readString();
         status = in.readString();
-        taskStatisticsList = in.createTypedArrayList(TaskStatistics.CREATOR);
+        goodSide = in.readString();
+        taskStatisticsList = in.readArrayList(TaskStatistics.class.getClassLoader());
+        isLoadedToServer = in.readByte() != 0;
     }
 
     public static final Creator<Task> CREATOR = new Creator<Task>() {
@@ -41,11 +63,11 @@ public class Task implements Parcelable{
         }
     };
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -97,12 +119,37 @@ public class Task implements Parcelable{
         this.status = status;
     }
 
-    public List<TaskStatistics> getTaskStatisticsList() {
-        return taskStatisticsList;
-    }
 
     public void setTaskStatisticsList(List<TaskStatistics> taskStatisticsList) {
         this.taskStatisticsList = taskStatisticsList;
+    }
+
+    public Collection<TaskStatistics> getTaskStatisticsList() {
+        return taskStatisticsList;
+    }
+
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
+    }
+
+    public String getGoodSide() {
+        return goodSide;
+    }
+
+    public void setGoodSide(String goodSide) {
+        this.goodSide = goodSide;
+    }
+
+    public boolean isLoadedToServer() {
+        return isLoadedToServer;
+    }
+
+    public void setIsLoadedToServer(boolean isLoadedToServer) {
+        this.isLoadedToServer = isLoadedToServer;
     }
 
     @Override
@@ -112,13 +159,17 @@ public class Task implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeInt(id);
+        parcel.writeLong(id);
+        parcel.writeLong(userId);
         parcel.writeString(title);
         parcel.writeString(description);
         parcel.writeDouble(revenue);
         parcel.writeLong(currentMilestoneLimit);
         parcel.writeString(milestoneUnits);
         parcel.writeString(status);
-        parcel.writeTypedList(taskStatisticsList);
+        parcel.writeString(goodSide);
+        parcel.writeByte((byte) (isLoadedToServer ? 1 : 0));
+        List<TaskStatistics> tempList = new ArrayList(taskStatisticsList);
+        parcel.writeList(tempList);
     }
 }
