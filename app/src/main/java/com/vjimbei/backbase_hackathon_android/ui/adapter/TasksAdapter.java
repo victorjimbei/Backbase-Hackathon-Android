@@ -20,9 +20,15 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
 
     private List<Task> taskList;
     private LayoutInflater inflater;
+    private OnTaskClicked onCLickListener;
 
-    public TasksAdapter(Context context) {
+    public interface OnTaskClicked{
+        void onClickedTask(Task task);
+    }
+
+    public TasksAdapter(Context context, OnTaskClicked onTaskClicked) {
         taskList = new ArrayList<>();
+        onCLickListener = onTaskClicked;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -51,6 +57,12 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
     public void onBindViewHolder(ViewHolder holder, int position) {
         final Task task = getItem(position);
         holder.bindData(task);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onCLickListener.onClickedTask(task);
+            }
+        });
     }
 
     private Task getItem(int position) {
@@ -91,11 +103,13 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
             title.setText(task.getTitle());
             description.setText(task.getDescription());
             progress.setMax((int) task.getCurrentMilestoneLimit());
-            if (dateUtils.isCurrentDay(applicationPreferences.getUnlockLastDate())) {
-                progress.setProgress
-                        (applicationPreferences.getUnlockCount());
-            } else {
-                progress.setProgress(0);
+            if (task.getStatus().equals("Started")) {
+                if (dateUtils.isCurrentDay(applicationPreferences.getUnlockLastDate())) {
+                    progress.setProgress
+                            (applicationPreferences.getUnlockCount());
+                } else {
+                    progress.setProgress(0);
+                }
             }
             status.setText(task.getStatus());
             revenue.setText(String.format(context.getString(R.string.format_revenue), task.getRevenue()));

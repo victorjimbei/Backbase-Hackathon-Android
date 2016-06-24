@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.vjimbei.backbase_hackathon_android">
+<manifest package="com.vjimbei.backbase_hackathon_android"
+          xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
@@ -16,9 +17,9 @@
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
@@ -26,16 +27,22 @@
             android:name=".PhoneUnlockedReceiver"
             android:exported="true">
             <intent-filter>
-                <action android:name="android.intent.action.USER_PRESENT" />
-                <action android:name="android.intent.action.SCREEN_ON" />
+                <action android:name="android.intent.action.USER_PRESENT"/>
+                <action android:name="android.intent.action.SCREEN_ON"/>
 
-                <category android:name="com.vjimbei.backbase_hackathon_android" />
+                <category android:name="com.vjimbei.backbase_hackathon_android"/>
             </intent-filter>
         </receiver>
+
         <meta-data
             android:name="io.fabric.ApiKey"
-            android:value="663aafb3f5be9ad91e6af1d88971eb7720b232a3" />
+            android:value="663aafb3f5be9ad91e6af1d88971eb7720b232a3"/>
+
+        <activity
+            android:name=".ui.activity.TaskDetailsActivity"
+            android:label="@string/title_activity_task_details"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
-    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

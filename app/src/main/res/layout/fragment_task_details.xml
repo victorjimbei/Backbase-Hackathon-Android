@@ -1,0 +1,169 @@
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.vjimbei.backbase_hackathon_android.ui.TaskDetailsFragment">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/spacing_normal"
+            android:paddingRight="@dimen/spacing_normal"
+            android:paddingTop="@dimen/spacing_normal"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
+            tools:text="Titlu va fi aici"/>
+
+        <TextView
+            android:id="@+id/status_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/title"
+            android:paddingBottom="@dimen/spacing_large"
+            android:paddingEnd="@dimen/spacing_small"
+            android:paddingLeft="@dimen/spacing_normal"
+            android:paddingRight="@dimen/spacing_small"
+            android:paddingStart="@dimen/spacing_normal"
+            android:text="@string/status_label"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+            tools:text="Status: "/>
+
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/title"
+            android:layout_toEndOf="@+id/status_label"
+            android:layout_toRightOf="@+id/status_label"
+            android:paddingEnd="@dimen/spacing_small"
+            android:paddingLeft="@dimen/spacing_normal"
+            android:paddingRight="@dimen/spacing_small"
+            android:paddingStart="@dimen/spacing_normal"
+            android:textAllCaps="true"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+            tools:text="Started"/>
+
+        <FrameLayout
+            android:id="@+id/chart_container"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_below="@+id/status_label"
+            android:background="@color/colorAccent"/>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/milestone_revenue_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/chart_container"
+            card_view:cardCornerRadius="3dp"
+            card_view:cardElevation="3dp"
+            card_view:cardUseCompatPadding="true">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/revenue_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/milestone_label"
+                    android:padding="@dimen/spacing_small"
+                    android:text="@string/revenue_label"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                    tools:text="Revenue: "/>
+
+                <TextView
+                    android:id="@+id/revenue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/milestone_label"
+                    android:layout_toEndOf="@+id/revenue_label"
+                    android:layout_toRightOf="@+id/revenue_label"
+                    android:padding="@dimen/spacing_small"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                    tools:text="5 $"/>
+
+                <TextView
+                    android:id="@+id/milestone_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/spacing_small"
+                    android:text="@string/current_milestone_label"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"/>
+
+                <TextView
+                    android:id="@+id/milestone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/milestone_label"
+                    android:layout_toRightOf="@+id/milestone_label"
+                    android:padding="@dimen/spacing_small"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                    tools:text="2400 steps"/>
+
+                <Button
+                    android:id="@+id/btn_edit"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/revenue_label"
+                    android:text="@string/edit_nbtn_label"/>
+
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/description_card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/milestone_revenue_card"
+            card_view:cardCornerRadius="3dp"
+            card_view:cardElevation="3dp"
+            card_view:cardUseCompatPadding="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/description_label"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/spacing_small"
+                    android:text="@string/description_label"
+                    android:textAllCaps="true"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"/>
+
+                <TextView
+                    android:id="@+id/description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/spacing_small"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                    tools:text="Tralalal lasdal "/>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <Button
+            android:id="@+id/btn_start_stop"
+            android:theme="@style/MyButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/description_card"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginBottom="@dimen/spacing_normal"
+            android:text="@string/start_label"/>
+
+    </RelativeLayout>
+</ScrollView>

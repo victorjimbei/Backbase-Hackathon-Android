@@ -1,6 +1,7 @@
 package com.vjimbei.backbase_hackathon_android.ui;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,8 +13,10 @@ import android.widget.FrameLayout;
 
 import com.vjimbei.backbase_hackathon_android.Mvp.TasksMvp;
 import com.vjimbei.backbase_hackathon_android.R;
+import com.vjimbei.backbase_hackathon_android.ScreenManager;
 import com.vjimbei.backbase_hackathon_android.entity.Task;
 import com.vjimbei.backbase_hackathon_android.presenter.TasksPresenter;
+import com.vjimbei.backbase_hackathon_android.ui.activity.TaskDetailsActivity;
 import com.vjimbei.backbase_hackathon_android.ui.adapter.TasksAdapter;
 
 import java.util.ArrayList;
@@ -23,7 +26,9 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AllTasksFragment extends Fragment implements TasksMvp.View{
+public class AllTasksFragment extends Fragment implements TasksMvp.View, TasksAdapter.OnTaskClicked{
+
+    public static final String EXTRA_TASK = "put.extra.task";
 
     private RecyclerView tasksRecyclerView;
     private List<Task> taskList;
@@ -39,7 +44,7 @@ public class AllTasksFragment extends Fragment implements TasksMvp.View{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         taskList = new ArrayList<>();
-        tasksAdapter = new TasksAdapter(getContext());
+        tasksAdapter = new TasksAdapter(getContext(), this);
         presenter = new TasksPresenter(this);
     }
 
@@ -80,5 +85,12 @@ public class AllTasksFragment extends Fragment implements TasksMvp.View{
     @Override
     public void hideProgress() {
         progress.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onClickedTask(Task task) {
+        Intent intent = new Intent(getActivity(), TaskDetailsActivity.class);
+        intent.putExtra(EXTRA_TASK, task);
+        startActivity(intent);
     }
 }
