@@ -1,22 +1,29 @@
-package com.vjimbei.backbase_hackathon_android;
+package com.vjimbei.backbase_hackathon_android.ui.activity;
 
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-public class MainActivity extends AppCompatActivity {
+import com.crashlytics.android.Crashlytics;
+import com.google.inject.Inject;
+import com.vjimbei.backbase_hackathon_android.PhoneUnlockedReceiver;
+import com.vjimbei.backbase_hackathon_android.R;
+import com.vjimbei.backbase_hackathon_android.ui.utils.ApplicationPreferences;
+
+import io.fabric.sdk.android.Fabric;
+
+public class MainActivity extends BaseActivity {
     private PhoneUnlockedReceiver receiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        Fabric.with(this, new Crashlytics());
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -30,6 +37,11 @@ public class MainActivity extends AppCompatActivity {
         });
 
         receiver = new PhoneUnlockedReceiver();
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_main;
     }
 
     @Override
@@ -50,6 +62,11 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
         unregisterReceiver(receiver);
     }
+
+    public void forceCrash(View view) {
+        throw new RuntimeException("This is a crash");
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
