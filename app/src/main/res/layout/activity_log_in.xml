@@ -14,9 +14,9 @@
             android:id="@+id/layout_card_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/bound_large"
-            android:paddingRight="@dimen/bound_large"
-            android:paddingTop="@dimen/bound_default">
+            android:paddingLeft="@dimen/spacing_large"
+            android:paddingRight="@dimen/spacing_large"
+            android:paddingTop="@dimen/spacing_large">
 
             <TextView
                 android:id="@+id/text_login_welcome"
@@ -24,15 +24,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_marginBottom="@dimen/bound_large"
-                android:layout_marginTop="@dimen/bound_large"
+                android:layout_marginBottom="@dimen/spacing_large"
+                android:layout_marginTop="@dimen/spacing_large"
                 tools:text="Nice to see you again!" />
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/text_login_welcome"
-                android:layout_marginTop="@dimen/bound_large">
+                android:layout_marginTop="@dimen/spacing_large">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -79,7 +79,7 @@
             android:id="@+id/btn_login_submit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/bound_default"
+            android:layout_marginRight="@dimen/spacing_large"
             android:onClick="attemptLogin"
             android:src="@drawable/ic_input"
             app:borderWidth="0dp"
