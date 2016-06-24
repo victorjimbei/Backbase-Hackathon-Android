@@ -87,6 +87,7 @@ public class LoginActivity extends BaseActivity {
             // perform the user login attempt.
             showProgress(true);
             startActivity(new Intent(this, MainActivity.class));
+            finish();
         }
     }
 

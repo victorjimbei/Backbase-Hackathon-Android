@@ -7,24 +7,28 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.crashlytics.android.Crashlytics;
+import com.vjimbei.backbase_hackathon_android.Mvp.AccountsMvp;
 import com.vjimbei.backbase_hackathon_android.PhoneUnlockedReceiver;
 import com.vjimbei.backbase_hackathon_android.R;
+import com.vjimbei.backbase_hackathon_android.entity.Account;
+import com.vjimbei.backbase_hackathon_android.ui.fragment.HomeFragment;
+
+import java.util.List;
 
 import io.fabric.sdk.android.Fabric;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements AccountsMvp.View {
     private PhoneUnlockedReceiver receiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         Fabric.with(this, new Crashlytics());
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         receiver = new PhoneUnlockedReceiver();
-
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, HomeFragment.newInstance()).commit();
     }
 
     @Override
@@ -65,4 +69,21 @@ public class MainActivity extends BaseActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void showProgress() {
+
+    }
+
+    @Override
+    public void hideProgress() {
+
+    }
+
+    @Override
+    public void showAccounts(List<Account> list) {
+
+    }
+
+
 }
