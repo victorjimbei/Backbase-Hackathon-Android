@@ -78,7 +78,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
             super(itemView);
             context = itemView.getContext();
             dateUtils = new DateUtils();
-            applicationPreferences = new ApplicationPreferences();
+            applicationPreferences = new ApplicationPreferences(context);
             title = (TextView) itemView.findViewById(R.id.title);
             description = (TextView) itemView.findViewById(R.id.description);
             progress = (ProgressBar) itemView.findViewById(R.id.progress);

@@ -47,6 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/progress"
+            android:text="@string/status_label"
             android:padding="@dimen/spacing_small"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
             tools:text="Status: "/>
@@ -69,6 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/status_label"
             android:padding="@dimen/spacing_small"
+            android:text="@string/revenue_label"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
             tools:text="Revenue: "/>
 
@@ -89,6 +91,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/revenue_label"
             android:padding="@dimen/spacing_small"
+            android:text="@string/milestone_label"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
             tools:text="Milestone: "/>
 
@@ -114,6 +117,7 @@
             android:textColor="@color/colorPrimary"
             android:textAllCaps="true"
             android:textStyle="bold"
+            android:text="Edit"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
             tools:text="Edit"/>
 
@@ -128,6 +132,7 @@
             android:paddingRight="@dimen/spacing_xlarge"
             android:paddingEnd="@dimen/spacing_xlarge"
             android:id="@+id/start_stop_btn"
+            android:text="@string/start_stop_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="Start / Stop"/>

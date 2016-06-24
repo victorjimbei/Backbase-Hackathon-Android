@@ -8,12 +8,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import com.vjimbei.backbase_hackathon_android.Mvp.TasksMvp;
 import com.vjimbei.backbase_hackathon_android.R;
 import com.vjimbei.backbase_hackathon_android.entity.Task;
 import com.vjimbei.backbase_hackathon_android.presenter.TasksPresenter;
-import com.vjimbei.backbase_hackathon_android.ui.adapter.DividerItemDecorator;
 import com.vjimbei.backbase_hackathon_android.ui.adapter.TasksAdapter;
 
 import java.util.ArrayList;
@@ -29,6 +29,7 @@ public class AllTasksFragment extends Fragment implements TasksMvp.View{
     private List<Task> taskList;
     private TasksAdapter tasksAdapter;
     private TasksMvp.Presenter presenter;
+    private FrameLayout progress;
 
     public AllTasksFragment() {
         // Required empty public constructor
@@ -47,7 +48,7 @@ public class AllTasksFragment extends Fragment implements TasksMvp.View{
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_all_tasks, container, false);
         tasksRecyclerView = (RecyclerView) view.findViewById(R.id.tasks_list);
-
+        progress = (FrameLayout)view.findViewById(R.id.layout_progress);
         return view;
     }
 
@@ -62,7 +63,6 @@ public class AllTasksFragment extends Fragment implements TasksMvp.View{
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         tasksRecyclerView.setLayoutManager(layoutManager);
-        tasksRecyclerView.addItemDecoration(new DividerItemDecorator(getContext()));
         tasksAdapter.setList(taskList);
         tasksRecyclerView.setAdapter(tasksAdapter);
     }
@@ -74,11 +74,11 @@ public class AllTasksFragment extends Fragment implements TasksMvp.View{
 
     @Override
     public void showProgress() {
-
+        progress.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgress() {
-
+        progress.setVisibility(View.GONE);
     }
 }

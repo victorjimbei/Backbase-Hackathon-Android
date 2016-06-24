@@ -19,16 +19,18 @@ public class TasksPresenter implements TasksMvp.Presenter, OnLoadTasks {
 
     @Override
     public void loadTasks() {
+        tasksView.showProgress();
         model.fetchTasks();
     }
 
     @Override
     public void onSuccess(List<Task> list) {
         tasksView.showList(list);
+        tasksView.hideProgress();
     }
 
     @Override
     public void onFailed() {
-
+        tasksView.hideProgress();
     }
 }

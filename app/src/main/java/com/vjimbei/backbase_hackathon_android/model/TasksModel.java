@@ -48,7 +48,7 @@ public class TasksModel implements TasksMvp.Model {
         task.setMilestoneUnits("Steps");
         task.setStatus("Not Started");
         task.setCurrentMilestoneLimit(3300);
-        task.setRevenue(2.2);
+        task.setRevenue(5);
         TaskStatistics taskStatistics = new TaskStatistics();
         taskStatistics.setId(11);
         taskStatistics.setMilestoneLimit(3300);
@@ -68,7 +68,7 @@ public class TasksModel implements TasksMvp.Model {
         task.setMilestoneUnits("Unlocks");
         task.setStatus("Not Started");
         task.setCurrentMilestoneLimit(50);
-        task.setRevenue(3.5);
+        task.setRevenue(5);
         TaskStatistics taskStatistics = new TaskStatistics();
         taskStatistics.setId(21);
         taskStatistics.setMilestoneLimit(50);
