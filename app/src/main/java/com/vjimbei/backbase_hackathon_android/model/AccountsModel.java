@@ -2,7 +2,7 @@ package com.vjimbei.backbase_hackathon_android.model;
 
 import com.vjimbei.backbase_hackathon_android.Mvp.AccountsMvp;
 import com.vjimbei.backbase_hackathon_android.entity.Account;
-import com.vjimbei.backbase_hackathon_android.entity.AccountType;
+import com.vjimbei.backbase_hackathon_android.entity.AccountTypeEnum;
 import com.vjimbei.backbase_hackathon_android.listeners.OnLoadAccounts;
 import com.vjimbei.backbase_hackathon_android.ui.utils.DateUtils;
 
@@ -27,13 +27,13 @@ public class AccountsModel implements AccountsMvp.Model {
 
     private List<Account> getMockAccountsList() {
         Account account = new Account();
-        account.setAccountType(AccountType.MAIN.name());
+        account.setAccountType(AccountTypeEnum.MAIN.name());
         account.setAmount(15000d);
         account.setBankName("ING Bank");
         account.setUserId(2123423L);
 
         Account savingsAccount = new Account();
-        savingsAccount.setAccountType(AccountType.SAVING.name());
+        savingsAccount.setAccountType(AccountTypeEnum.SAVING.name());
         savingsAccount.setAmount(0d);
         savingsAccount.setBankName("Raiffeisen Bank");
         account.setUserId(2123423L);

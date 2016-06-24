@@ -1,5 +1,6 @@
 package com.vjimbei.backbase_hackathon_android.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,6 +14,7 @@ import com.vjimbei.backbase_hackathon_android.Mvp.TasksMvp;
 import com.vjimbei.backbase_hackathon_android.R;
 import com.vjimbei.backbase_hackathon_android.entity.Task;
 import com.vjimbei.backbase_hackathon_android.presenter.TasksPresenter;
+import com.vjimbei.backbase_hackathon_android.ui.activity.TaskDetailsActivity;
 import com.vjimbei.backbase_hackathon_android.ui.adapter.TasksAdapter;
 
 import java.util.ArrayList;
@@ -21,7 +23,7 @@ import java.util.List;
 /**
  * Created by vjimbei on 6/24/2016.
  */
-public class HomeFragment extends Fragment implements TasksMvp.View {
+public class HomeFragment extends Fragment implements TasksMvp.View, TasksAdapter.OnTaskClicked {
 
     private RecyclerView tasksRecyclerView;
     private List<Task> taskList;
@@ -42,7 +44,7 @@ public class HomeFragment extends Fragment implements TasksMvp.View {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         taskList = new ArrayList<>();
-        tasksAdapter = new TasksAdapter(getContext());
+        tasksAdapter = new TasksAdapter(getContext(), this);
         presenter = new TasksPresenter(this);
     }
 
@@ -85,4 +87,10 @@ public class HomeFragment extends Fragment implements TasksMvp.View {
         progress.setVisibility(View.GONE);
     }
 
+    @Override
+    public void onClickedTask(Task task) {
+        Intent intent = new Intent(getActivity(), TaskDetailsActivity.class);
+        intent.putExtra(AllTasksFragment.EXTRA_TASK, task);
+        startActivity(intent);
+    }
 }
