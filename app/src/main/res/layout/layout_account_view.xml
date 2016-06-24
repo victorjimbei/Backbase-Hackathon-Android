@@ -22,18 +22,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/spacing_small"
+                android:text="Account type: "
                 android:textSize="18sp"
-                android:textStyle="bold"
-                tools:text="Bank: " />
+                android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/tv_bank_name"
+                android:id="@+id/tv_account_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/spacing_small"
                 android:textSize="18sp"
                 android:textStyle="bold"
-                tools:text="ING" />
+                tools:text="Primary" />
         </LinearLayout>
 
         <LinearLayout
@@ -51,16 +51,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/spacing_small"
-                    android:textSize="18sp"
-                    tools:text="Account type: " />
+                    android:text="Bank: "
+                    android:textSize="18sp" />
 
                 <TextView
-                    android:id="@+id/tv_account_type"
+                    android:id="@+id/tv_bank_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/spacing_small"
                     android:textSize="18sp"
-                    tools:text="Primary" />
+                    tools:text="ING" />
+
             </LinearLayout>
 
             <LinearLayout
@@ -74,8 +75,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/spacing_small"
-                    android:textSize="18sp"
-                    tools:text="Amount: " />
+                    android:text="Amount: "
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/tv_amount"

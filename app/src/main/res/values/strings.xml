@@ -26,4 +26,6 @@
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
+    <string name="label_active_tasks">Active tasks</string>
+    <string name="amount_formatter">%1$s €</string>
 </resources>

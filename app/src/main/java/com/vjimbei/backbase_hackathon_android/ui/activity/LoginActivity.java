@@ -8,20 +8,24 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.vjimbei.backbase_hackathon_android.Mvp.UserMvp;
 import com.vjimbei.backbase_hackathon_android.R;
+import com.vjimbei.backbase_hackathon_android.entity.User;
+import com.vjimbei.backbase_hackathon_android.presenter.UserPresenter;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Created by vjimbei on 6/24/2016.
  */
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends BaseActivity implements UserMvp.View {
 
     private EditText etEmail;
     private EditText etPassword;
     private TextView etProgress;
-
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
+    private UserPresenter userPresenter;
+    private Map<String, Long> usersMap;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -29,6 +33,13 @@ public class LoginActivity extends BaseActivity {
         etEmail = (EditText) findViewById(R.id.edit_login_username);
         etPassword = (EditText) findViewById(R.id.edit_login_password);
         etProgress = (TextView) findViewById(R.id.et_login_progress);
+        userPresenter = new UserPresenter(this);
+        usersMap = new LinkedHashMap<>();
+        usersMap.put("milosbiljanovic@gmail.com", 1L);
+        usersMap.put("damiralibegovic@gmail.com", 2L);
+        usersMap.put("aleksandarzivkovic@gmail.com", 3L);
+        etEmail.setText("milosbiljanovic@gmail.com");
+        etPassword.setText("test123");
     }
 
     @Override
@@ -73,21 +84,9 @@ public class LoginActivity extends BaseActivity {
         }
 
         if (cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
             focusView.requestFocus();
         } else {
-
-//            if (!NetworkUtils.hasNetworkConnection(this)) {
-//                Toast.makeText(this, R.string.no_network, Toast.LENGTH_LONG).show();
-//                return;
-//            }
-
-            // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
-            showProgress(true);
-            startActivity(new Intent(this, MainActivity.class));
-            finish();
+            userPresenter.loadUser(usersMap.get(email));
         }
     }
 
@@ -101,11 +100,21 @@ public class LoginActivity extends BaseActivity {
         return password.length() > 4;
     }
 
-    public void showProgress(final boolean show) {
-        if (show) {
-            etProgress.setVisibility(View.VISIBLE);
-        } else {
-            etPassword.setVisibility(View.GONE);
-        }
+    @Override
+    public void showUser(User user) {
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra(MainActivity.USER_KEY, user);
+        startActivity(intent);
+        finish();
+    }
+
+    @Override
+    public void showProgress() {
+        etProgress.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgress() {
+        etProgress.setVisibility(View.GONE);
     }
 }

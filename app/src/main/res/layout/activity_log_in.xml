@@ -36,7 +36,11 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="@dimen/spacing_xlarge"
+                    android:paddingLeft="@dimen/spacing_large"
+                    android:paddingRight="@dimen/spacing_large"
+                    android:paddingTop="@dimen/spacing_large">
 
                     <android.support.design.widget.TextInputLayout
                         android:id="@+id/textinput_login_username"
@@ -93,6 +97,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/loggining_in"
+            android:visibility="gone"
             app:layout_anchor="@id/btn_login_submit"
             app:layout_anchorGravity="bottom|right|end" />
 

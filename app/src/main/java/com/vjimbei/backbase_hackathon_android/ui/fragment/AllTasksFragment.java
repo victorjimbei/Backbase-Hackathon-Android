@@ -13,7 +13,6 @@ import android.widget.FrameLayout;
 
 import com.vjimbei.backbase_hackathon_android.Mvp.TasksMvp;
 import com.vjimbei.backbase_hackathon_android.R;
-import com.vjimbei.backbase_hackathon_android.ScreenManager;
 import com.vjimbei.backbase_hackathon_android.entity.Task;
 import com.vjimbei.backbase_hackathon_android.presenter.TasksPresenter;
 import com.vjimbei.backbase_hackathon_android.ui.activity.TaskDetailsActivity;
@@ -26,7 +25,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AllTasksFragment extends Fragment implements TasksMvp.View, TasksAdapter.OnTaskClicked{
+public class AllTasksFragment extends Fragment implements TasksMvp.View, TasksAdapter.OnTaskClicked {
 
     public static final String EXTRA_TASK = "put.extra.task";
 
@@ -36,8 +35,13 @@ public class AllTasksFragment extends Fragment implements TasksMvp.View, TasksAd
     private TasksMvp.Presenter presenter;
     private FrameLayout progress;
 
-    public AllTasksFragment() {
-        // Required empty public constructor
+    public static AllTasksFragment newInstance() {
+
+        Bundle args = new Bundle();
+
+        AllTasksFragment fragment = new AllTasksFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
@@ -53,7 +57,7 @@ public class AllTasksFragment extends Fragment implements TasksMvp.View, TasksAd
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_all_tasks, container, false);
         tasksRecyclerView = (RecyclerView) view.findViewById(R.id.tasks_list);
-        progress = (FrameLayout)view.findViewById(R.id.layout_progress);
+        progress = (FrameLayout) view.findViewById(R.id.layout_progress);
         return view;
     }
 
@@ -64,7 +68,7 @@ public class AllTasksFragment extends Fragment implements TasksMvp.View, TasksAd
         presenter.loadTasks();
     }
 
-    private void setUpRecyclerview(){
+    private void setUpRecyclerview() {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         tasksRecyclerView.setLayoutManager(layoutManager);
