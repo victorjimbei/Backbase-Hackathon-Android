@@ -1,4 +1,4 @@
-package com.vjimbei.backbase_hackathon_android.ui;
+package com.vjimbei.backbase_hackathon_android.ui.fragment;
 
 
 import android.os.Bundle;
