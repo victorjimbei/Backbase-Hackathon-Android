@@ -1,4 +1,4 @@
-package com.vjimbei.backbase_hackathon_android.view.adapter;
+package com.vjimbei.backbase_hackathon_android.ui.adapter;
 
 import android.content.Context;
 import android.graphics.Canvas;

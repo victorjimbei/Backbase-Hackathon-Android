@@ -36,4 +36,10 @@ public class DateUtils {
         }
         return null;
     }
+
+    public boolean isCurrentDay(String date){
+        Date currentDate = new Date(System.currentTimeMillis());
+        String currentDateAsString = getDateAsString(currentDate);
+        return currentDateAsString.equals(date);
+    }
 }

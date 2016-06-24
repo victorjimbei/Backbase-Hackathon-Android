@@ -4,6 +4,9 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -13,6 +16,7 @@ import com.crashlytics.android.Crashlytics;
 import com.google.inject.Inject;
 import com.vjimbei.backbase_hackathon_android.PhoneUnlockedReceiver;
 import com.vjimbei.backbase_hackathon_android.R;
+import com.vjimbei.backbase_hackathon_android.ui.AllTasksFragment;
 import com.vjimbei.backbase_hackathon_android.ui.utils.ApplicationPreferences;
 
 import io.fabric.sdk.android.Fabric;
@@ -37,6 +41,14 @@ public class MainActivity extends BaseActivity {
         });
 
         receiver = new PhoneUnlockedReceiver();
+        AllTasksFragment fragment = new AllTasksFragment();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.container, fragment);
+
+            transaction.addToBackStack(null);
+
+        transaction.commit();
+
     }
 
     @Override

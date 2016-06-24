@@ -1,4 +1,4 @@
-package com.vjimbei.backbase_hackathon_android.view.adapter;
+package com.vjimbei.backbase_hackathon_android.ui.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.vjimbei.backbase_hackathon_android.R;
 import com.vjimbei.backbase_hackathon_android.entity.Task;
+import com.vjimbei.backbase_hackathon_android.ui.utils.ApplicationPreferences;
+import com.vjimbei.backbase_hackathon_android.ui.utils.DateUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,21 +71,36 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
         private TextView status;
         private TextView revenue;
         private TextView milestone;
-
+        private DateUtils dateUtils;
+        private ApplicationPreferences applicationPreferences;
 
         public ViewHolder(View itemView) {
             super(itemView);
             context = itemView.getContext();
-            title =(TextView)itemView.findViewById(R.id.title);
-            description =(TextView)itemView.findViewById(R.id.description);
-            progress =(ProgressBar)itemView.findViewById(R.id.progress);
-            status =(TextView)itemView.findViewById(R.id.status);
-            revenue =(TextView)itemView.findViewById(R.id.revenue);
-            milestone =(TextView)itemView.findViewById(R.id.milestone);
+            dateUtils = new DateUtils();
+            applicationPreferences = new ApplicationPreferences();
+            title = (TextView) itemView.findViewById(R.id.title);
+            description = (TextView) itemView.findViewById(R.id.description);
+            progress = (ProgressBar) itemView.findViewById(R.id.progress);
+            status = (TextView) itemView.findViewById(R.id.status);
+            revenue = (TextView) itemView.findViewById(R.id.revenue);
+            milestone = (TextView) itemView.findViewById(R.id.milestone);
         }
 
         public void bindData(Task task) {
-//todo bind data
+            title.setText(task.getTitle());
+            description.setText(task.getDescription());
+            progress.setMax((int) task.getCurrentMilestoneLimit());
+            if (dateUtils.isCurrentDay(applicationPreferences.getUnlockLastDate())) {
+                progress.setProgress
+                        (applicationPreferences.getUnlockCount());
+            } else {
+                progress.setProgress(0);
+            }
+            status.setText(task.getStatus());
+            revenue.setText(String.format(context.getString(R.string.format_revenue), task.getRevenue()));
+            milestone.setText(String.format(context.getString(R.string.format_milestone), task
+                    .getCurrentMilestoneLimit(), task.getMilestoneUnits()));
         }
     }
 }
