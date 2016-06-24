@@ -1,17 +1,14 @@
 package com.vjimbei.backbase_hackathon_android.ui.activity;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 
 import com.vjimbei.backbase_hackathon_android.R;
 import com.vjimbei.backbase_hackathon_android.ScreenManager;
 import com.vjimbei.backbase_hackathon_android.entity.Task;
-import com.vjimbei.backbase_hackathon_android.ui.AllTasksFragment;
-import com.vjimbei.backbase_hackathon_android.ui.TaskDetailsFragment;
+import com.vjimbei.backbase_hackathon_android.ui.fragment.AllTasksFragment;
+import com.vjimbei.backbase_hackathon_android.ui.fragment.TaskDetailsFragment;
 
 public class TaskDetailsActivity extends AppCompatActivity {
 
