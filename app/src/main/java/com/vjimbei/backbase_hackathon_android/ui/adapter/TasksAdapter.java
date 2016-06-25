@@ -83,6 +83,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
         private TextView status;
         private TextView revenue;
         private TextView milestone;
+        private TextView progressVal;
         private DateUtils dateUtils;
         private ApplicationPreferences applicationPreferences;
 
@@ -97,6 +98,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
             status = (TextView) itemView.findViewById(R.id.status);
             revenue = (TextView) itemView.findViewById(R.id.revenue);
             milestone = (TextView) itemView.findViewById(R.id.milestone);
+            progressVal = (TextView) itemView.findViewById(R.id.progress_val);
         }
 
         public void bindData(Task task) {
@@ -104,6 +106,8 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
             description.setText(task.getDescription());
             progress.setMax((int) task.getMilestoneLimit());
             progress.setProgress((int) task.getCurrentMilestoneValue());
+            progressVal.setText(String.format(context.getString(R.string.format_milestone), task
+                    .getCurrentMilestoneValue(), task.getMilestoneUnits()));
             status.setText(task.getStatus());
             revenue.setText(String.format(context.getString(R.string.format_revenue), task.getRevenue()));
             milestone.setText(String.format(context.getString(R.string.format_milestone), task

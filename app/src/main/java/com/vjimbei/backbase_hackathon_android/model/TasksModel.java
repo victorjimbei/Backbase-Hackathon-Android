@@ -56,10 +56,12 @@ public class TasksModel implements TasksMvp.Model {
     private Task createRunningTask() {
         Task task = new Task();
         task.setId(System.currentTimeMillis());
-        task.setTitle("Running");
+        task.setTitle("Running challenge");
         task.setUserId(1);
-        task.setDescription("Running is healthy");
-        task.setMilestoneUnits("Steps");
+        task.setDescription("Nothing gets the adrenaline flowing like running does. Running is arguably the most " +
+                "diverse, challenging, and rewarding of all the sportsand activities. Join us and be the best. And " +
+                "get rewarded ;)");
+        task.setMilestoneUnits("steps");
         task.setGoodSide("Right");
         task.setCurrentMilestoneValue(0);
         task.setStatus(TaskStatusEnum.NOTSTARTED.name());
@@ -73,8 +75,8 @@ public class TasksModel implements TasksMvp.Model {
         task.setId(System.currentTimeMillis() + 2);
         task.setUserId(1);
         task.setTitle("Phone Unlocking");
-        task.setDescription("Try to not unlock your phone today!");
-        task.setMilestoneUnits("Unlocks");
+        task.setDescription("Try not to unlock your phone today!");
+        task.setMilestoneUnits("unlocks");
         task.setGoodSide("Left");
         task.setCurrentMilestoneValue(0);
         task.setStatus(TaskStatusEnum.NOTSTARTED.name());
@@ -89,7 +91,7 @@ public class TasksModel implements TasksMvp.Model {
         task.setUserId(1);
         task.setTitle("Phone Usage Time");
         task.setDescription("No facebook today. Can you do this?");
-        task.setMilestoneUnits("Minutes");
+        task.setMilestoneUnits("minutes");
         task.setGoodSide("Left");
         task.setCurrentMilestoneValue(0);
         task.setStatus(TaskStatusEnum.NOTSTARTED.name());
