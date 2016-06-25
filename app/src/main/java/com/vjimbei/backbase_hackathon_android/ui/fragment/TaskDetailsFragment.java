@@ -278,23 +278,9 @@ public class TaskDetailsFragment extends Fragment implements EditTaskFragment.On
     private void updateUI(Task task) {
         if (task != null) {
 
-            if (task.getMilestoneLimit() < task.getCurrentMilestoneValue()){
-                task.setStatus(TaskStatusEnum.COMPLETED.name());
-                WinnerFragment fragment = WinnerFragment.newInstance(task);
-                fragment.show(getFragmentManager(), "winnerDialog");
-            }
-
             progressBar.setMax((int) task.getMilestoneLimit());
             progressBar.setProgress((int) task.getCurrentMilestoneValue());
 
-
-            if (task.getMilestoneUnits().equalsIgnoreCase(MilestoneUnitTypeEnum.STEPS.name())) {
-                if (task.getMilestoneLimit() < task.getCurrentMilestoneValue()) {
-                    task.setStatus(TaskStatusEnum.COMPLETED.name());
-                    WinnerFragment fragment = WinnerFragment.newInstance(task);
-                    fragment.show(getFragmentManager(), "winnerDialog");
-                }
-            }
             progressBar.setMax((int) task.getMilestoneLimit());
             progressBar.setProgress((int) task.getCurrentMilestoneValue());
 
@@ -309,6 +295,14 @@ public class TaskDetailsFragment extends Fragment implements EditTaskFragment.On
                     .getMilestoneLimit(), task.getMilestoneUnits()));
             progressVlue.setText(String.format(getContext().getString(R.string.format_milestone), task
                     .getCurrentMilestoneValue(), task.getMilestoneUnits()));
+
+            if (task.getMilestoneUnits().equalsIgnoreCase(MilestoneUnitTypeEnum.STEPS.name())) {
+                if (task.getMilestoneLimit() < task.getCurrentMilestoneValue()) {
+                    task.setStatus(TaskStatusEnum.COMPLETED.name());
+                    WinnerFragment fragment = WinnerFragment.newInstance(task);
+                    fragment.show(getFragmentManager(), "winnerDialog");
+                }
+            }
 
             presenter.updateTask(task);
         }
