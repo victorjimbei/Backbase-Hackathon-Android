@@ -16,7 +16,7 @@ import com.vjimbei.backbase_hackathon_android.R;
 import com.vjimbei.backbase_hackathon_android.entity.Account;
 import com.vjimbei.backbase_hackathon_android.entity.AccountTypeEnum;
 import com.vjimbei.backbase_hackathon_android.entity.User;
-import com.vjimbei.backbase_hackathon_android.ui.fragment.HomeFragment;
+import com.vjimbei.backbase_hackathon_android.ui.fragment.AllTasksFragment;
 import com.vjimbei.backbase_hackathon_android.ui.view.AccountViewHolder;
 
 import java.util.List;
@@ -53,7 +53,7 @@ public class MainActivity extends BaseActivity implements AccountsMvp.View {
         }
 
         receiver = new PhoneUnlockedReceiver();
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, HomeFragment.newInstance()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, AllTasksFragment.newInstance(true)).commit();
     }
 
     @Override

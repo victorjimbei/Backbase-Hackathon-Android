@@ -21,7 +21,7 @@ public class AllTasksActivity extends BaseActivity {
 
         ScreenManager screenManager = new ScreenManager(getSupportFragmentManager());
 
-        screenManager.placeFragment(AllTasksFragment.newInstance(), false, R.id.fragment_container);
+        screenManager.placeFragment(AllTasksFragment.newInstance(false), false, R.id.fragment_container);
     }
 
     @Override

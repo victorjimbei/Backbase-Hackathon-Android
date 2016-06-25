@@ -3,6 +3,7 @@ package com.vjimbei.backbase_hackathon_android.model;
 import com.vjimbei.backbase_hackathon_android.Mvp.TasksMvp;
 import com.vjimbei.backbase_hackathon_android.entity.Task;
 import com.vjimbei.backbase_hackathon_android.entity.TaskStatistics;
+import com.vjimbei.backbase_hackathon_android.entity.TaskStatusEnum;
 import com.vjimbei.backbase_hackathon_android.listeners.OnLoadTasks;
 import com.vjimbei.backbase_hackathon_android.ui.utils.DateUtils;
 
@@ -46,8 +47,8 @@ public class TasksModel implements TasksMvp.Model {
         task.setTitle("Running");
         task.setDescription("Running is healthy");
         task.setMilestoneUnits("Steps");
-        task.setStatus("Not Started");
-        task.setCurrentMilestoneValue(0);
+        task.setStatus(TaskStatusEnum.NOTSTARTED.name());
+        task.setCurrentMilestoneValue(3300);
         task.setRevenue(5);
         TaskStatistics taskStatistics = new TaskStatistics();
         taskStatistics.setId(11);
@@ -66,8 +67,8 @@ public class TasksModel implements TasksMvp.Model {
         task.setTitle("Phone Unlocking");
         task.setDescription("Try to not unlock your phone today!");
         task.setMilestoneUnits("Unlocks");
-        task.setStatus("Not Started");
-        task.setCurrentMilestoneValue(0);
+        task.setStatus(TaskStatusEnum.NOTSTARTED.name());
+        task.setCurrentMilestoneValue(50);
         task.setRevenue(5);
         TaskStatistics taskStatistics = new TaskStatistics();
         taskStatistics.setId(21);
@@ -86,8 +87,8 @@ public class TasksModel implements TasksMvp.Model {
         task.setTitle("Phone Usage Time");
         task.setDescription("No facebook today. Can you do this?");
         task.setMilestoneUnits("Minutes");
-        task.setStatus("Not Started");
-        task.setCurrentMilestoneValue(0);
+        task.setStatus(TaskStatusEnum.NOTSTARTED.name());
+        task.setCurrentMilestoneValue(60);
         task.setRevenue(5);
         TaskStatistics taskStatistics = new TaskStatistics();
         taskStatistics.setId(31);
