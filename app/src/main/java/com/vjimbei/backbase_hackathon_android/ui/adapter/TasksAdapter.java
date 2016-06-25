@@ -107,7 +107,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
             status.setText(task.getStatus());
             revenue.setText(String.format(context.getString(R.string.format_revenue), task.getRevenue()));
             milestone.setText(String.format(context.getString(R.string.format_milestone), task
-                    .getCurrentMilestoneValue(), task.getMilestoneUnits()));
+                    .getMilestoneLimit(), task.getMilestoneUnits()));
         }
     }
 }

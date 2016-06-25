@@ -49,7 +49,7 @@ public class AllTasksFragment extends Fragment implements TasksMvp.View, TasksAd
         super.onCreate(savedInstanceState);
         taskList = new ArrayList<>();
         tasksAdapter = new TasksAdapter(getContext(), this);
-        presenter = new TasksPresenter(this);
+        presenter = new TasksPresenter(getContext(), this);
     }
 
     @Override
@@ -65,6 +65,11 @@ public class AllTasksFragment extends Fragment implements TasksMvp.View, TasksAd
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setUpRecyclerview();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         presenter.loadTasks();
     }
 

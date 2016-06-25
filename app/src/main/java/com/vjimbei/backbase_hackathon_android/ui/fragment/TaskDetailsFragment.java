@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -64,9 +65,10 @@ public class TaskDetailsFragment extends Fragment implements EditTaskFragment.On
     private TextView description;
     private TextView milestone;
     private TextView revenue;
+    private TextView progressVlue;
+    private ProgressBar progressBar;
     private Button edit;
     private Button startStopBtn;
-    private FrameLayout progress;
 
     private Task task;
     private GoogleApiClient mClient = null;
@@ -101,9 +103,10 @@ public class TaskDetailsFragment extends Fragment implements EditTaskFragment.On
         milestone = (TextView) view.findViewById(R.id.milestone);
         revenue = (TextView) view.findViewById(R.id.revenue);
         description = (TextView) view.findViewById(R.id.description);
+        progressVlue = (TextView) view.findViewById(R.id.progress_value);
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         edit = (Button) view.findViewById(R.id.btn_edit);
         startStopBtn = (Button) view.findViewById(R.id.btn_start_stop);
-        progress = (FrameLayout) view.findViewById(R.id.layout_progress);
         return view;
     }
 
@@ -129,7 +132,7 @@ public class TaskDetailsFragment extends Fragment implements EditTaskFragment.On
                     if (task.getStatus().equalsIgnoreCase(TaskStatusEnum.STARTED.name())) {
                         task.setStatus(TaskStatusEnum.NOTSTARTED.name());
                         startStopBtn.setText(getString(R.string.start_label));
-                        unregisterFitnessDataListener();
+//                        unregisterFitnessDataListener();
                     } else {
                         task.setStatus(TaskStatusEnum.STARTED.name());
                         startStopBtn.setText(getString(R.string.stop_label));
@@ -158,12 +161,19 @@ public class TaskDetailsFragment extends Fragment implements EditTaskFragment.On
 
     private void updateUI(Task task) {
         if (task != null) {
+            startStopBtn.setText(task.getStatus().equalsIgnoreCase(TaskStatusEnum.STARTED.name()) ? getString(R
+                    .string.stop_label) : getString(R.string.start_label));
             title.setText(task.getTitle());
             status.setText(task.getStatus());
             description.setText(task.getDescription());
+
             revenue.setText(String.format(getContext().getString(R.string.format_revenue), task.getRevenue()));
             milestone.setText(String.format(getContext().getString(R.string.format_milestone), task
+                    .getMilestoneLimit(), task.getMilestoneUnits()));
+            progressVlue.setText(String.format(getContext().getString(R.string.format_milestone), task
                     .getCurrentMilestoneValue(), task.getMilestoneUnits()));
+            progressBar.setMax((int)task.getMilestoneLimit());
+            progressBar.setProgress((int)task.getCurrentMilestoneValue());
             presenter.updateTask(task);
         }
     }
@@ -238,21 +248,23 @@ public class TaskDetailsFragment extends Fragment implements EditTaskFragment.On
                     final Value val = dataPoint.getValue(field);
                     Log.i(TAG, "Detected DataPoint field: " + field.getName());
                     Log.i(TAG, "Detected DataPoint value: " + val);
+
                     TaskStatistics statistics = new TaskStatistics();
                     task.setCurrentMilestoneValue(val.asInt());
                     statistics.setMilestoneValue(task.getCurrentMilestoneValue());
                     statistics.setMilestoneLimit(task.getMilestoneLimit());
                     statistics.setTaskId(task.getId());
-                    statistics.setDate(new Date().toString());
+                    statistics.setDate(System.currentTimeMillis());
+                    statistics.setTask(task);
+                    statistics.setId(System.currentTimeMillis());
                     presenter.sendData(statistics);
 
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(getContext(), val + " steps", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), val + "", Toast.LENGTH_SHORT).show();
                         }
                     });
-
                 }
             }
         };
@@ -367,12 +379,21 @@ public class TaskDetailsFragment extends Fragment implements EditTaskFragment.On
 
     @Override
     public void showProgress() {
-        progress.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProgress() {
-        progress.setVisibility(View.GONE);
+
+    }
+
+    @Override
+    public void updateStatisticsUI(final TaskStatistics statistics) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                updateUI(statistics.getTask());
+            }
+        });
     }
 
 }

@@ -31,10 +31,8 @@ public class Task implements Parcelable {
     private String status;
     @DatabaseField(columnName = "goodSide")
     private String goodSide;
-    @ForeignCollectionField(foreignFieldName = "task", columnName = "statistics")
-    private Collection<TaskStatistics> taskStatisticsList;
     @DatabaseField(columnName = "isLoadedToServer")
-    private boolean isLoadedToServer;
+    private transient boolean isLoadedToServer;
 
     public Task() {
     }
@@ -50,7 +48,6 @@ public class Task implements Parcelable {
         milestoneUnits = in.readString();
         status = in.readString();
         goodSide = in.readString();
-        taskStatisticsList = in.readArrayList(TaskStatistics.class.getClassLoader());
         isLoadedToServer = in.readByte() != 0;
     }
 
@@ -123,14 +120,6 @@ public class Task implements Parcelable {
     }
 
 
-    public void setTaskStatisticsList(List<TaskStatistics> taskStatisticsList) {
-        this.taskStatisticsList = taskStatisticsList;
-    }
-
-    public Collection<TaskStatistics> getTaskStatisticsList() {
-        return taskStatisticsList;
-    }
-
     public long getUserId() {
         return userId;
     }
@@ -153,10 +142,6 @@ public class Task implements Parcelable {
 
     public void setIsLoadedToServer(boolean isLoadedToServer) {
         this.isLoadedToServer = isLoadedToServer;
-    }
-
-    public void setTaskStatisticsList(Collection<TaskStatistics> taskStatisticsList) {
-        this.taskStatisticsList = taskStatisticsList;
     }
 
     public long getMilestoneLimit() {
@@ -185,7 +170,5 @@ public class Task implements Parcelable {
         parcel.writeString(status);
         parcel.writeString(goodSide);
         parcel.writeByte((byte) (isLoadedToServer ? 1 : 0));
-        List<TaskStatistics> tempList = new ArrayList(taskStatisticsList);
-        parcel.writeList(tempList);
     }
 }

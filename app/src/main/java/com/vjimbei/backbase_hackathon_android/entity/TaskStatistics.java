@@ -3,6 +3,7 @@ package com.vjimbei.backbase_hackathon_android.entity;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
 import com.j256.ormlite.field.DatabaseField;
 
 public class TaskStatistics implements Parcelable{
@@ -12,22 +13,22 @@ public class TaskStatistics implements Parcelable{
     @DatabaseField(columnName = "taskId")
     private long taskId;
     @DatabaseField(columnName = "date")
-    private String date;
+    private long date;
     @DatabaseField(columnName = "milestoneLimit")
     private long milestoneLimit;
+    @SerializedName("currentMilestoneValue")
     @DatabaseField(columnName = "milestoneValue")
     private long milestoneValue;
     @DatabaseField(foreign = true, foreignAutoRefresh = true, columnName = "task")
-    private transient Task task;
+    private Task task;
 
     public TaskStatistics() {
     }
 
-
     protected TaskStatistics(Parcel in) {
         id = in.readLong();
         taskId = in.readLong();
-        date = in.readString();
+        date = in.readLong();
         milestoneLimit = in.readLong();
         milestoneValue = in.readLong();
         task = in.readParcelable(Task.class.getClassLoader());
@@ -53,11 +54,11 @@ public class TaskStatistics implements Parcelable{
         this.id = id;
     }
 
-    public String getDate() {
+    public long getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(long date) {
         this.date = date;
     }
 
@@ -102,7 +103,7 @@ public class TaskStatistics implements Parcelable{
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeLong(id);
         parcel.writeLong(taskId);
-        parcel.writeString(date);
+        parcel.writeLong(date);
         parcel.writeLong(milestoneLimit);
         parcel.writeLong(milestoneValue);
         parcel.writeParcelable(task, i);

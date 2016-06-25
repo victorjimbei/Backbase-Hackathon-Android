@@ -13,6 +13,7 @@ public class ApplicationPreferences {
     public static final String PREFS_NAME = "BackbasePreferences";
     private static final String APP_PACKAGE = BuildConfig.APPLICATION_ID;
     private static final String UNLOCK_LAST_DATE = APP_PACKAGE + "LAST_UNLOCK_DATE";
+    private static final String CREATE_FIRST_TIME_TASK = APP_PACKAGE + "FIRST_TIME_TASK";
     private static final String UNLOCK_COUNT = APP_PACKAGE + "UNLOCK_COUNT";
 
     private SharedPreferences mPreferences;
@@ -28,6 +29,16 @@ public class ApplicationPreferences {
     public void setUnlockLastDate(String date) {
         SharedPreferences.Editor editor = mPreferences.edit();
         editor.putString(UNLOCK_LAST_DATE, date);
+        editor.apply();
+    }
+
+    public boolean isFirstTimeCreatedTasks() {
+        return mPreferences.getBoolean(CREATE_FIRST_TIME_TASK, false);
+    }
+
+    public void setFirstTimeCreateTask(boolean date) {
+        SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putBoolean(CREATE_FIRST_TIME_TASK, date);
         editor.apply();
     }
 
