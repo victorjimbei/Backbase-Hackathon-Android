@@ -33,6 +33,7 @@ import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -60,7 +61,9 @@ import com.vjimbei.backbase_hackathon_android.entity.TaskStatistics;
 import com.vjimbei.backbase_hackathon_android.entity.TaskStatusEnum;
 import com.vjimbei.backbase_hackathon_android.presenter.TaskDetailsPresenter;
 import com.vjimbei.backbase_hackathon_android.ui.utils.ApplicationPreferences;
+import com.vjimbei.backbase_hackathon_android.ui.utils.CustomValueFormatter;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
@@ -96,6 +99,7 @@ public class TaskDetailsFragment extends Fragment implements EditTaskFragment.On
             "20/6", "21/6", "22/6", "23/6", "24/6", "25/6"
     };
     private final int itemcount = 6;
+    final String decimalPattern = "###";
 
     public static TaskDetailsFragment newInstance(Task task) {
         TaskDetailsFragment fragment = new TaskDetailsFragment();
@@ -188,7 +192,7 @@ public class TaskDetailsFragment extends Fragment implements EditTaskFragment.On
         set.setAxisDependency(YAxis.AxisDependency.LEFT);
 
         d.addDataSet(set);
-
+        d.setValueFormatter(new CustomValueFormatter(0));
         return d;
     }
 
@@ -208,7 +212,7 @@ public class TaskDetailsFragment extends Fragment implements EditTaskFragment.On
         d.addDataSet(set);
 
         set.setAxisDependency(YAxis.AxisDependency.LEFT);
-
+        d.setValueFormatter(new PercentFormatter(new DecimalFormat(decimalPattern)));
         return d;
     }
 
@@ -235,13 +239,7 @@ public class TaskDetailsFragment extends Fragment implements EditTaskFragment.On
             @Override
             public void onClick(View view) {
                 if (task.getMilestoneUnits().equalsIgnoreCase(MilestoneUnitTypeEnum.STEPS.name())) {
-                    if (task.getStatus().equalsIgnoreCase(TaskStatusEnum.STARTED.name())) {
-                        task.setStatus(TaskStatusEnum.NOTSTARTED.name());
-                        startStopBtn.setText(getString(R.string.start_label));
-//                        unregisterFitnessDataListener();
-                    } else {
-                        task.setStatus(TaskStatusEnum.STARTED.name());
-                        startStopBtn.setText(getString(R.string.stop_label));
+                    if (!task.getStatus().equalsIgnoreCase(TaskStatusEnum.STARTED.name())) {
                         buildFitnessClient();
                     }
                     presenter.updateTask(task);
@@ -250,6 +248,13 @@ public class TaskDetailsFragment extends Fragment implements EditTaskFragment.On
                     applicationPreferences.setUnlockLimit(task.getMilestoneLimit());
                 } else if (task.getMilestoneUnits().equalsIgnoreCase(MilestoneUnitTypeEnum.MINUTES.name())) {
 
+                }
+                if (task.getStatus().equalsIgnoreCase(TaskStatusEnum.STARTED.name())) {
+                    task.setStatus(TaskStatusEnum.NOTSTARTED.name());
+                    startStopBtn.setText(getString(R.string.start_label));
+                } else {
+                    task.setStatus(TaskStatusEnum.STARTED.name());
+                    startStopBtn.setText(getString(R.string.stop_label));
                 }
             }
         });
@@ -272,6 +277,27 @@ public class TaskDetailsFragment extends Fragment implements EditTaskFragment.On
 
     private void updateUI(Task task) {
         if (task != null) {
+
+            if (task.getMilestoneLimit() < task.getCurrentMilestoneValue()){
+                task.setStatus(TaskStatusEnum.COMPLETED.name());
+                WinnerFragment fragment = WinnerFragment.newInstance(task);
+                fragment.show(getFragmentManager(), "winnerDialog");
+            }
+
+            progressBar.setMax((int) task.getMilestoneLimit());
+            progressBar.setProgress((int) task.getCurrentMilestoneValue());
+
+
+            if (task.getMilestoneUnits().equalsIgnoreCase(MilestoneUnitTypeEnum.STEPS.name())) {
+                if (task.getMilestoneLimit() < task.getCurrentMilestoneValue()) {
+                    task.setStatus(TaskStatusEnum.COMPLETED.name());
+                    WinnerFragment fragment = WinnerFragment.newInstance(task);
+                    fragment.show(getFragmentManager(), "winnerDialog");
+                }
+            }
+            progressBar.setMax((int) task.getMilestoneLimit());
+            progressBar.setProgress((int) task.getCurrentMilestoneValue());
+
             startStopBtn.setText(task.getStatus().equalsIgnoreCase(TaskStatusEnum.STARTED.name()) ? getString(R
                     .string.stop_label) : getString(R.string.start_label));
             title.setText(task.getTitle());
@@ -283,8 +309,7 @@ public class TaskDetailsFragment extends Fragment implements EditTaskFragment.On
                     .getMilestoneLimit(), task.getMilestoneUnits()));
             progressVlue.setText(String.format(getContext().getString(R.string.format_milestone), task
                     .getCurrentMilestoneValue(), task.getMilestoneUnits()));
-            progressBar.setMax((int) task.getMilestoneLimit());
-            progressBar.setProgress((int) task.getCurrentMilestoneValue());
+
             presenter.updateTask(task);
         }
     }
@@ -371,12 +396,6 @@ public class TaskDetailsFragment extends Fragment implements EditTaskFragment.On
                     presenter.sendData(statistics);
 
                     createAndSendNewTaskStatistik(val.asString());
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(getContext(), val + "", Toast.LENGTH_SHORT).show();
-                        }
-                    });
                 }
             }
         };
@@ -520,13 +539,23 @@ public class TaskDetailsFragment extends Fragment implements EditTaskFragment.On
     }
 
     @Override
+    public void updateTask(final Task task) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                updateUI(task);
+            }
+        });
+    }
+
+    @Override
     public Loader<Task> onCreateLoader(int i, Bundle bundle) {
         return new TaskLoader(getActivity(), new DbClientImpl(getActivity()), task.getId());
     }
 
     @Override
     public void onLoadFinished(Loader<Task> loader, Task data) {
-        updateUI(task);
+        this.task = data;
     }
 
     @Override

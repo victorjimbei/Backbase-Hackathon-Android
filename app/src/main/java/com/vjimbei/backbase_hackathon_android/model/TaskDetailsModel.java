@@ -28,7 +28,10 @@ public class TaskDetailsModel implements TaskDetailsMvp.Model {
 
     public interface OnTaskUpdateListener {
         void onSuccessUpdated(TaskStatistics statistics);
+
         void onFailedToUpdate(RCError error);
+
+        void onTaskUpdatedSuccess(Task task);
     }
 
     public TaskDetailsModel(Context context, OnTaskUpdateListener listener) {
@@ -39,7 +42,7 @@ public class TaskDetailsModel implements TaskDetailsMvp.Model {
 
     @Override
     public void updateTask(Task task) {
-        dbClient.saveOrUpdateTask(task);//todo integrate api
+              dbClient.saveOrUpdateTask(task);//todo integrate api
     }
 
     @Override
@@ -52,9 +55,9 @@ public class TaskDetailsModel implements TaskDetailsMvp.Model {
         call.enqueue(new Callback<TaskStatistics>() {
             @Override
             public void onResponse(Call<TaskStatistics> call, Response<TaskStatistics> response) {
-                if (response.isSuccessful()){
-                listener.onSuccessUpdated(response.body());
-                }else {
+                if (response.isSuccessful()) {
+                    listener.onSuccessUpdated(response.body());
+                } else {
                     listener.onFailedToUpdate(new RCApiError(response.message()));
                 }
             }

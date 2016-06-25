@@ -42,4 +42,10 @@ public class TaskDetailsPresenter implements TaskDetailsMvp.Presenter, TaskDetai
 
         view.hideProgress();
     }
+
+    @Override
+    public void onTaskUpdatedSuccess(Task task) {
+        view.hideProgress();
+        view.updateTask(task);
+    }
 }

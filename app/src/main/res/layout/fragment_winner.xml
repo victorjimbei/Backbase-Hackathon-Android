@@ -1,0 +1,37 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:context="com.vjimbei.backbase_hackathon_android.ui.fragment.WinnerFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:id="@+id/titl_winner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:padding="@dimen/spacing_small"
+        android:text="@string/winner_title"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"/>
+
+    <TextView
+        android:id="@+id/winner_msg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/titl_winner"
+        android:padding="@dimen/spacing_small"
+        android:text="@string/format_winner_msg"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Subhead"/>
+
+
+    <Button
+        android:id="@+id/btn_ok_winner"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/winner_msg"
+        android:layout_centerHorizontal="true"
+        android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
+        android:text="@string/ok_nbtn_label"/>
+
+</RelativeLayout>

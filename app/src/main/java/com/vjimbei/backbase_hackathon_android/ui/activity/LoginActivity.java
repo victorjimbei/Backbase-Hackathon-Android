@@ -38,6 +38,9 @@ public class LoginActivity extends BaseActivity implements UserMvp.View {
         usersMap.put("milosbiljanovic@gmail.com", 1L);
         usersMap.put("damiralibegovic@gmail.com", 2L);
         usersMap.put("aleksandarzivkovic@gmail.com", 3L);
+        usersMap.put("bussinesasusual@gmail.com", 4L);
+        usersMap.put("waka.backa.hacka@gmail.com", 5L);
+
         etEmail.setText("milosbiljanovic@gmail.com");
         etPassword.setText("test123");
     }
@@ -86,7 +89,9 @@ public class LoginActivity extends BaseActivity implements UserMvp.View {
         if (cancel) {
             focusView.requestFocus();
         } else {
-            userPresenter.loadUser(usersMap.get(email));
+            if (usersMap.containsKey(email)) {
+                userPresenter.loadUser(usersMap.get(email));
+            }
         }
     }
 

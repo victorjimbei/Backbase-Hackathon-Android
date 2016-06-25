@@ -33,4 +33,8 @@
     <string name="permission_rationale">Please grant access</string>
     <string name="ok">Ok</string>
     <string name="current_progress_label">Progress</string>
+    <string name="winner_title">Congratulations !</string>
+    <string name="format_winner_msg">You have completed your daily goal, and %1$s € is transferred from your Main
+        account to your Saving account.</string>
+    <string name="ok_nbtn_label">OK</string>
 </resources>

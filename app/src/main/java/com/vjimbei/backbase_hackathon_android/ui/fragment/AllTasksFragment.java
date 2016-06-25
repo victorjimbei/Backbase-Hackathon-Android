@@ -107,9 +107,10 @@ public class AllTasksFragment extends Fragment implements TasksMvp.View, TasksAd
                     sortedList.add(task);
                 }
             } else {
-                if (task.getStatus().equals(TaskStatusEnum.NOTSTARTED.name())) {
-                    sortedList.add(task);
-                }
+//                if (task.getStatus().equals(TaskStatusEnum.NOTSTARTED.name())) {
+//                    sortedList.add(task);
+//                }
+                return list;
             }
         }
         return sortedList;
