@@ -1,9 +1,9 @@
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/spacing_large"
     android:orientation="vertical"
     tools:context=".ui.fragment.EditTaskFragment">
 
@@ -23,14 +23,14 @@
             android:imeOptions="actionNext"
             android:inputType="number"
             android:singleLine="true"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"/>
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/edit_revenue"
-        android:layout_below="@+id/edit_threshold"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_threshold"
         android:layout_marginLeft="@dimen/spacing_normal"
         android:layout_marginRight="@dimen/spacing_normal"
         app:errorEnabled="true">
@@ -43,13 +43,13 @@
             android:imeOptions="actionNext"
             android:inputType="number"
             android:singleLine="true"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"/>
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1" />
     </android.support.design.widget.TextInputLayout>
 
     <LinearLayout
-        android:layout_below="@+id/edit_revenue"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_revenue"
         android:orientation="horizontal">
 
         <Button
@@ -58,7 +58,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/save_nbtn_label"/>
+            android:text="@string/save_nbtn_label" />
 
         <Button
             android:id="@+id/btn_cancel"
@@ -66,9 +66,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/cancel_nbtn_label"/>
+            android:text="@string/cancel_nbtn_label" />
     </LinearLayout>
 
-    <include layout="@layout/layout_progress"/>
+    <include layout="@layout/layout_progress" />
 
 </RelativeLayout>

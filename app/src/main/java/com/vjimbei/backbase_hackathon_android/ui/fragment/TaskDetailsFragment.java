@@ -162,6 +162,7 @@ public class TaskDetailsFragment extends Fragment implements EditTaskFragment.On
             revenue.setText(String.format(getContext().getString(R.string.format_revenue), task.getRevenue()));
             milestone.setText(String.format(getContext().getString(R.string.format_milestone), task
                     .getCurrentMilestoneLimit(), task.getMilestoneUnits()));
+            presenter.updateTask(task);
         }
     }
 
