@@ -73,7 +73,7 @@ public class EditTaskFragment extends DialogFragment implements EditTaskMvp.View
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (task != null) {
-            inputMilestone.setText(String.valueOf(task.getCurrentMilestoneLimit()));
+            inputMilestone.setText(String.valueOf(task.getCurrentMilestoneValue()));
             inputRevenue.setText(String.valueOf(task.getRevenue()));
         }
         save.setOnClickListener(new View.OnClickListener() {
@@ -81,7 +81,7 @@ public class EditTaskFragment extends DialogFragment implements EditTaskMvp.View
             public void onClick(View view) {
                 task.setRevenue(inputRevenue.getText().toString().isEmpty() ? 0 : Double.parseDouble(inputRevenue.getText()
                         .toString()));
-                task.setCurrentMilestoneLimit(inputMilestone.getText().toString().isEmpty() ? 0 : Integer.parseInt(inputMilestone.getText()
+                task.setCurrentMilestoneValue(inputMilestone.getText().toString().isEmpty() ? 0 : Integer.parseInt(inputMilestone.getText()
                         .toString()));
                 presenter.saveTask(task);
                 EditTaskFragment.this.dismiss();

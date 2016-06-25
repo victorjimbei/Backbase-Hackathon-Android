@@ -21,10 +21,12 @@ public class Task implements Parcelable {
     private String description;
     @DatabaseField(columnName = "revenue")
     private double revenue;
-    @DatabaseField(columnName = "currentMilestoneLimit")
-    private long currentMilestoneLimit;
+    @DatabaseField(columnName = "currentMilestoneValue")
+    private long currentMilestoneValue;
     @DatabaseField(columnName = "milestoneUnit")
     private String milestoneUnits;
+    @DatabaseField(columnName = "milestoneLimit")
+    private long milestoneLimit;
     @DatabaseField(columnName = "status")
     private String status;
     @DatabaseField(columnName = "goodSide")
@@ -40,10 +42,11 @@ public class Task implements Parcelable {
     protected Task(Parcel in) {
         id = in.readLong();
         userId = in.readLong();
+        milestoneLimit = in.readLong();
         title = in.readString();
         description = in.readString();
         revenue = in.readDouble();
-        currentMilestoneLimit = in.readLong();
+        currentMilestoneValue = in.readLong();
         milestoneUnits = in.readString();
         status = in.readString();
         goodSide = in.readString();
@@ -95,12 +98,12 @@ public class Task implements Parcelable {
         this.revenue = revenue;
     }
 
-    public long getCurrentMilestoneLimit() {
-        return currentMilestoneLimit;
+    public long getCurrentMilestoneValue() {
+        return currentMilestoneValue;
     }
 
-    public void setCurrentMilestoneLimit(long currentMilestoneLimit) {
-        this.currentMilestoneLimit = currentMilestoneLimit;
+    public void setCurrentMilestoneValue(long currentMilestoneValue) {
+        this.currentMilestoneValue = currentMilestoneValue;
     }
 
     public String getMilestoneUnits() {
@@ -152,6 +155,18 @@ public class Task implements Parcelable {
         this.isLoadedToServer = isLoadedToServer;
     }
 
+    public void setTaskStatisticsList(Collection<TaskStatistics> taskStatisticsList) {
+        this.taskStatisticsList = taskStatisticsList;
+    }
+
+    public long getMilestoneLimit() {
+        return milestoneLimit;
+    }
+
+    public void setMilestoneLimit(long milestoneLimit) {
+        this.milestoneLimit = milestoneLimit;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -161,10 +176,11 @@ public class Task implements Parcelable {
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeLong(id);
         parcel.writeLong(userId);
+        parcel.writeLong(milestoneLimit);
         parcel.writeString(title);
         parcel.writeString(description);
         parcel.writeDouble(revenue);
-        parcel.writeLong(currentMilestoneLimit);
+        parcel.writeLong(currentMilestoneValue);
         parcel.writeString(milestoneUnits);
         parcel.writeString(status);
         parcel.writeString(goodSide);

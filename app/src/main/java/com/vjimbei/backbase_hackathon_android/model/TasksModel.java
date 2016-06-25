@@ -47,7 +47,7 @@ public class TasksModel implements TasksMvp.Model {
         task.setDescription("Running is healthy");
         task.setMilestoneUnits("Steps");
         task.setStatus("Not Started");
-        task.setCurrentMilestoneLimit(3300);
+        task.setCurrentMilestoneValue(0);
         task.setRevenue(5);
         TaskStatistics taskStatistics = new TaskStatistics();
         taskStatistics.setId(11);
@@ -67,7 +67,7 @@ public class TasksModel implements TasksMvp.Model {
         task.setDescription("Try to not unlock your phone today!");
         task.setMilestoneUnits("Unlocks");
         task.setStatus("Not Started");
-        task.setCurrentMilestoneLimit(50);
+        task.setCurrentMilestoneValue(0);
         task.setRevenue(5);
         TaskStatistics taskStatistics = new TaskStatistics();
         taskStatistics.setId(21);
@@ -87,7 +87,7 @@ public class TasksModel implements TasksMvp.Model {
         task.setDescription("No facebook today. Can you do this?");
         task.setMilestoneUnits("Minutes");
         task.setStatus("Not Started");
-        task.setCurrentMilestoneLimit(60);
+        task.setCurrentMilestoneValue(0);
         task.setRevenue(5);
         TaskStatistics taskStatistics = new TaskStatistics();
         taskStatistics.setId(31);

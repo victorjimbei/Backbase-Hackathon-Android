@@ -28,7 +28,7 @@ public class User implements Parcelable{
     @SerializedName("savingAccount")
     private Account savingAccount;
     @SerializedName("currentPlan")
-    private List<Plan> completedPLans;
+    private Plan completedPLans;
 
     public User() {
     }
@@ -43,7 +43,7 @@ public class User implements Parcelable{
         profileImg = in.readString();
         mainAccount = in.readParcelable(Account.class.getClassLoader());
         savingAccount = in.readParcelable(Account.class.getClassLoader());
-        completedPLans = in.readArrayList(Plan.class.getClassLoader());
+        completedPLans = in.readParcelable(Plan.class.getClassLoader());
     }
 
     public static final Creator<User> CREATOR = new Creator<User>() {
@@ -122,11 +122,11 @@ public class User implements Parcelable{
         this.savingAccount = savingAccount;
     }
 
-    public List<Plan> getCompletedPLans() {
+    public Plan getCompletedPLans() {
         return completedPLans;
     }
 
-    public void setCompletedPLans(List<Plan> completedPLans) {
+    public void setCompletedPLans(Plan completedPLans) {
         this.completedPLans = completedPLans;
     }
 
@@ -154,6 +154,6 @@ public class User implements Parcelable{
         parcel.writeString(username);
         parcel.writeParcelable(mainAccount, i);
         parcel.writeParcelable(savingAccount, i);
-        parcel.writeList(completedPLans);
+        parcel.writeParcelable(completedPLans, i);
     }
 }

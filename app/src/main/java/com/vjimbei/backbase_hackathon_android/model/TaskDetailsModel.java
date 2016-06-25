@@ -6,7 +6,10 @@ import com.vjimbei.backbase_hackathon_android.Mvp.TaskDetailsMvp;
 import com.vjimbei.backbase_hackathon_android.db.DbClient;
 import com.vjimbei.backbase_hackathon_android.db.DbClientImpl;
 import com.vjimbei.backbase_hackathon_android.entity.Task;
+import com.vjimbei.backbase_hackathon_android.entity.TaskStatistics;
 import com.vjimbei.backbase_hackathon_android.rest.ApiProvider;
+
+import retrofit2.Call;
 
 public class TaskDetailsModel implements TaskDetailsMvp.Model {
 
@@ -29,5 +32,10 @@ public class TaskDetailsModel implements TaskDetailsMvp.Model {
     public void updateTask(Task task) {
         dbClient.saveOrUpdateTask(task);//todo integrate api
         listener.onSuccessUpdated();
+    }
+
+    @Override
+    public void updateStatistics(TaskStatistics statistics) {
+
     }
 }

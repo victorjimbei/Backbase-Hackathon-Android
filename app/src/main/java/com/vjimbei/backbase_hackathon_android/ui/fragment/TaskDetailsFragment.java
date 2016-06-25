@@ -41,9 +41,11 @@ import com.vjimbei.backbase_hackathon_android.Mvp.TaskDetailsMvp;
 import com.vjimbei.backbase_hackathon_android.R;
 import com.vjimbei.backbase_hackathon_android.entity.MilestoneUnitTypeEnum;
 import com.vjimbei.backbase_hackathon_android.entity.Task;
+import com.vjimbei.backbase_hackathon_android.entity.TaskStatistics;
 import com.vjimbei.backbase_hackathon_android.entity.TaskStatusEnum;
 import com.vjimbei.backbase_hackathon_android.presenter.TaskDetailsPresenter;
 
+import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -161,7 +163,7 @@ public class TaskDetailsFragment extends Fragment implements EditTaskFragment.On
             description.setText(task.getDescription());
             revenue.setText(String.format(getContext().getString(R.string.format_revenue), task.getRevenue()));
             milestone.setText(String.format(getContext().getString(R.string.format_milestone), task
-                    .getCurrentMilestoneLimit(), task.getMilestoneUnits()));
+                    .getCurrentMilestoneValue(), task.getMilestoneUnits()));
             presenter.updateTask(task);
         }
     }
@@ -236,7 +238,13 @@ public class TaskDetailsFragment extends Fragment implements EditTaskFragment.On
                     final Value val = dataPoint.getValue(field);
                     Log.i(TAG, "Detected DataPoint field: " + field.getName());
                     Log.i(TAG, "Detected DataPoint value: " + val);
-
+                    TaskStatistics statistics = new TaskStatistics();
+                    task.setCurrentMilestoneValue(val.asInt());
+                    statistics.setMilestoneValue(task.getCurrentMilestoneValue());
+                    statistics.setMilestoneLimit(task.getMilestoneLimit());
+                    statistics.setTaskId(task.getId());
+                    statistics.setDate(new Date().toString());
+                    presenter.sendData(statistics);
 
                     getActivity().runOnUiThread(new Runnable() {
                         @Override

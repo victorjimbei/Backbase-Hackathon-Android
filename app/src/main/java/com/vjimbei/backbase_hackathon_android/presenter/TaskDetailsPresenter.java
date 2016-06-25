@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.vjimbei.backbase_hackathon_android.Mvp.TaskDetailsMvp;
 import com.vjimbei.backbase_hackathon_android.entity.Task;
+import com.vjimbei.backbase_hackathon_android.entity.TaskStatistics;
 import com.vjimbei.backbase_hackathon_android.model.TaskDetailsModel;
 
 public class TaskDetailsPresenter implements TaskDetailsMvp.Presenter, TaskDetailsModel.OnTaskUpdateListener {
@@ -20,6 +21,13 @@ public class TaskDetailsPresenter implements TaskDetailsMvp.Presenter, TaskDetai
     public void updateTask(Task task) {
         view.showProgress();
         model.updateTask(task);
+    }
+
+    @Override
+    public void sendData(TaskStatistics statistics) {
+        view.showProgress();
+        model.updateStatistics(statistics);
+
     }
 
     @Override

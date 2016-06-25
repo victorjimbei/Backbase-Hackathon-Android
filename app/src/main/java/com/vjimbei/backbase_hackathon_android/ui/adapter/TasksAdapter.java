@@ -22,7 +22,7 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
     private LayoutInflater inflater;
     private OnTaskClicked onCLickListener;
 
-    public interface OnTaskClicked{
+    public interface OnTaskClicked {
         void onClickedTask(Task task);
     }
 
@@ -102,19 +102,12 @@ public class TasksAdapter extends RecyclerView.Adapter<TasksAdapter.ViewHolder> 
         public void bindData(Task task) {
             title.setText(task.getTitle());
             description.setText(task.getDescription());
-            progress.setMax((int) task.getCurrentMilestoneLimit());
-            if (task.getStatus().equals("Started")) {
-                if (dateUtils.isCurrentDay(applicationPreferences.getUnlockLastDate())) {
-                    progress.setProgress
-                            (applicationPreferences.getUnlockCount());
-                } else {
-                    progress.setProgress(0);
-                }
-            }
+            progress.setMax((int) task.getMilestoneLimit());
+            progress.setProgress((int) task.getCurrentMilestoneValue());
             status.setText(task.getStatus());
             revenue.setText(String.format(context.getString(R.string.format_revenue), task.getRevenue()));
             milestone.setText(String.format(context.getString(R.string.format_milestone), task
-                    .getCurrentMilestoneLimit(), task.getMilestoneUnits()));
+                    .getCurrentMilestoneValue(), task.getMilestoneUnits()));
         }
     }
 }
