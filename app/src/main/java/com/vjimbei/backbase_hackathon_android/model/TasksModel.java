@@ -70,7 +70,7 @@ public class TasksModel implements TasksMvp.Model {
 
     private Task createScreenLockTask() {
         Task task = new Task();
-        task.setId(System.currentTimeMillis());
+        task.setId(System.currentTimeMillis() + 2);
         task.setUserId(1);
         task.setTitle("Phone Unlocking");
         task.setDescription("Try to not unlock your phone today!");
@@ -85,7 +85,7 @@ public class TasksModel implements TasksMvp.Model {
 
     private Task createPhoneUsageTimeTask() {
         Task task = new Task();
-        task.setId(System.currentTimeMillis());
+        task.setId(System.currentTimeMillis() + 3);
         task.setUserId(1);
         task.setTitle("Phone Usage Time");
         task.setDescription("No facebook today. Can you do this?");

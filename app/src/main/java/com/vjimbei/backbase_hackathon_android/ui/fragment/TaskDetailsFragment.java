@@ -272,6 +272,16 @@ public class TaskDetailsFragment extends Fragment implements EditTaskFragment.On
 
     private void updateUI(Task task) {
         if (task != null) {
+
+            if (task.getMilestoneLimit() < task.getCurrentMilestoneValue()){
+                task.setStatus(TaskStatusEnum.COMPLETED.name());
+                WinnerFragment fragment = WinnerFragment.newInstance(task);
+                fragment.show(getFragmentManager(), "winnerDialog");
+            }
+
+            progressBar.setMax((int) task.getMilestoneLimit());
+            progressBar.setProgress((int) task.getCurrentMilestoneValue());
+
             startStopBtn.setText(task.getStatus().equalsIgnoreCase(TaskStatusEnum.STARTED.name()) ? getString(R
                     .string.stop_label) : getString(R.string.start_label));
             title.setText(task.getTitle());
@@ -283,8 +293,7 @@ public class TaskDetailsFragment extends Fragment implements EditTaskFragment.On
                     .getMilestoneLimit(), task.getMilestoneUnits()));
             progressVlue.setText(String.format(getContext().getString(R.string.format_milestone), task
                     .getCurrentMilestoneValue(), task.getMilestoneUnits()));
-            progressBar.setMax((int) task.getMilestoneLimit());
-            progressBar.setProgress((int) task.getCurrentMilestoneValue());
+
             presenter.updateTask(task);
         }
     }
@@ -371,12 +380,6 @@ public class TaskDetailsFragment extends Fragment implements EditTaskFragment.On
                     presenter.sendData(statistics);
 
                     createAndSendNewTaskStatistik(val.asString());
-                    getActivity().runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(getContext(), val + "", Toast.LENGTH_SHORT).show();
-                        }
-                    });
                 }
             }
         };
@@ -515,6 +518,16 @@ public class TaskDetailsFragment extends Fragment implements EditTaskFragment.On
             @Override
             public void run() {
                 updateUI(statistics.getTask());
+            }
+        });
+    }
+
+    @Override
+    public void updateTask(final Task task) {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                updateUI(task);
             }
         });
     }

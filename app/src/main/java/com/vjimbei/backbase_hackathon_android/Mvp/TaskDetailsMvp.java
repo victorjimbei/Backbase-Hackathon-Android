@@ -11,6 +11,8 @@ public interface TaskDetailsMvp {
         void hideProgress();
 
         void updateStatisticsUI(TaskStatistics statistics);
+
+        void updateTask(Task task);
     }
 
     public interface Model {
