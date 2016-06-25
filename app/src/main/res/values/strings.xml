@@ -7,7 +7,7 @@
     <string name="format_revenue">%1$s €</string>
     <string name="format_milestone">%1$s %2$s</string>
     <string name="status_label">Status:</string>
-    <string name="revenue_label">Revenue:</string>
+    <string name="revenue_label">Reward:</string>
     <string name="milestone_label">Milestone:</string>
     <string name="start_label">Start</string>
     <string name="stop_label">Stop</string>
@@ -15,7 +15,7 @@
     <string name="description_label">Description</string>
     <string name="current_milestone_label">Current threshold</string>
     <string name="edit_nbtn_label">Edit</string>
-    <string name="title_activity_task_details">TaskDetailsActivity</string>
+    <string name="title_activity_task_details">Task Details</string>
     <string name="save_nbtn_label">Save</string>
     <string name="cancel_nbtn_label">Cancel</string>
     <string name="edit_milestone_hint">Edit threshold</string>

@@ -27,82 +27,138 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/title"
-            android:padding="@dimen/spacing_small"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+            android:paddingBottom="@dimen/spacing_small"
+            android:paddingLeft="@dimen/spacing_small"
+            android:paddingRight="@dimen/spacing_small"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Caption"
             tools:text="Vasea trebuie sa fuga"/>
+
+        <TextView
+            android:id="@+id/progress_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/description"
+            android:text="@string/current_progress_label"
+            android:paddingLeft="@dimen/spacing_small"
+            android:paddingRight="@dimen/spacing_small"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"/>
+
+        <TextView
+            android:id="@+id/progress_val"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/description"
+            android:layout_toRightOf="@+id/progress_label"
+            android:layout_toEndOf="@+id/progress_label"
+            android:paddingRight="@dimen/spacing_small"
+            android:paddingLeft="@dimen/spacing_small"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+            android:textColor="@color/colorPrimary"
+            android:textStyle="bold"
+            tools:text="2400 steps"/>
 
         <ProgressBar
             android:id="@+id/progress"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/description"
+            android:layout_below="@+id/progress_label"
             android:layout_margin="@dimen/spacing_small"
             android:indeterminate="false"/>
 
-        <TextView
-            android:id="@+id/status_label"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/progress"
-            android:text="@string/status_label"
-            android:padding="@dimen/spacing_small"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
-            tools:text="Status: "/>
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/status_label"
-            android:layout_toEndOf="@+id/status_label"
-            android:layout_below="@+id/progress"
-            android:textAllCaps="true"
-            android:padding="@dimen/spacing_small"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
-            tools:text="Started"/>
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
 
-        <TextView
-            android:id="@+id/revenue_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/status_label"
-            android:padding="@dimen/spacing_small"
-            android:text="@string/revenue_label"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
-            tools:text="Revenue: "/>
+                <TextView
+                    android:id="@+id/status_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:padding="@dimen/spacing_small"
+                    android:text="@string/status_label"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                    tools:text="Status: "/>
 
-        <TextView
-            android:id="@+id/revenue"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/revenue_label"
-            android:layout_toEndOf="@+id/revenue_label"
-            android:layout_below="@+id/status_label"
-            android:padding="@dimen/spacing_small"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
-            tools:text="5 $"/>
+                <TextView
+                    android:id="@+id/status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/status_label"
+                    android:layout_centerHorizontal="true"
+                    android:padding="@dimen/spacing_small"
+                    android:textAllCaps="true"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold"
+                    tools:text="Started"/>
 
-        <TextView
-            android:id="@+id/milestone_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/revenue_label"
-            android:padding="@dimen/spacing_small"
-            android:text="@string/milestone_label"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
-            tools:text="Milestone: "/>
+            </RelativeLayout>
 
-        <TextView
-            android:id="@+id/milestone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/milestone_label"
-            android:layout_toEndOf="@+id/milestone_label"
-            android:layout_below="@+id/revenue_label"
-            android:padding="@dimen/spacing_small"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
-            tools:text="2400 steps"/>
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/revenue_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:padding="@dimen/spacing_small"
+                    android:text="@string/revenue_label"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                    tools:text="Revenue: "/>
+
+                <TextView
+                    android:id="@+id/revenue"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/revenue_label"
+                    android:layout_centerHorizontal="true"
+                    android:padding="@dimen/spacing_small"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold"
+                    tools:text="5 $"/>
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <TextView
+                    android:id="@+id/milestone_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:padding="@dimen/spacing_small"
+                    android:text="@string/milestone_label"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                    tools:text="Milestone: "/>
+
+                <TextView
+                    android:id="@+id/milestone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/milestone_label"
+                    android:layout_centerHorizontal="true"
+                    android:padding="@dimen/spacing_small"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Body1"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold"
+                    tools:text="2400 steps"/>
+            </RelativeLayout>
+        </LinearLayout>
 
 
     </RelativeLayout>
