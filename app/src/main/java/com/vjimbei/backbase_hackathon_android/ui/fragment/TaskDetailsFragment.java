@@ -4,6 +4,7 @@ package com.vjimbei.backbase_hackathon_android.ui.fragment;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -16,11 +17,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.mikephil.charting.charts.CombinedChart;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.CombinedData;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -39,14 +49,16 @@ import com.google.android.gms.fitness.request.SensorRequest;
 import com.google.android.gms.fitness.result.DataSourcesResult;
 import com.vjimbei.backbase_hackathon_android.BuildConfig;
 import com.vjimbei.backbase_hackathon_android.Mvp.TaskDetailsMvp;
+import com.vjimbei.backbase_hackathon_android.PhoneUnlockedReceiver;
 import com.vjimbei.backbase_hackathon_android.R;
 import com.vjimbei.backbase_hackathon_android.entity.MilestoneUnitTypeEnum;
 import com.vjimbei.backbase_hackathon_android.entity.Task;
 import com.vjimbei.backbase_hackathon_android.entity.TaskStatistics;
 import com.vjimbei.backbase_hackathon_android.entity.TaskStatusEnum;
 import com.vjimbei.backbase_hackathon_android.presenter.TaskDetailsPresenter;
+import com.vjimbei.backbase_hackathon_android.ui.utils.ApplicationPreferences;
 
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -57,6 +69,8 @@ public class TaskDetailsFragment extends Fragment implements EditTaskFragment.On
     private static final String ARGS_TASK = "args.task.details";
     private static final int DIALOG_FRAGMENT = 112;
     public static final String TAG = "BasicSensorsApi";
+    private PhoneUnlockedReceiver receiver;
+    private ApplicationPreferences applicationPreferences;
 
     private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
 
@@ -74,6 +88,11 @@ public class TaskDetailsFragment extends Fragment implements EditTaskFragment.On
     private GoogleApiClient mClient = null;
     private OnDataPointListener mListener;
     private TaskDetailsMvp.Presenter presenter;
+    private CombinedChart mChart;
+    protected String[] mMonths = new String[]{
+            "20/6", "21/6", "22/6", "23/6", "24/6", "25/6"
+    };
+    private final int itemcount = 6;
 
     public static TaskDetailsFragment newInstance(Task task) {
         TaskDetailsFragment fragment = new TaskDetailsFragment();
@@ -92,6 +111,8 @@ public class TaskDetailsFragment extends Fragment implements EditTaskFragment.On
         if (!checkPermissions()) {
             requestPermissions();
         }
+        applicationPreferences = new ApplicationPreferences(getActivity());
+        receiver = new PhoneUnlockedReceiver();
     }
 
     @Override
@@ -107,7 +128,88 @@ public class TaskDetailsFragment extends Fragment implements EditTaskFragment.On
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
         edit = (Button) view.findViewById(R.id.btn_edit);
         startStopBtn = (Button) view.findViewById(R.id.btn_start_stop);
+
+        mChart = (CombinedChart) view.findViewById(R.id.chart1);
+        mChart.setDescription("");
+        mChart.setBackgroundColor(Color.WHITE);
+        mChart.setDrawGridBackground(false);
+        mChart.setDrawBarShadow(false);
+
+        // draw bars behind lines
+        mChart.setDrawOrder(new CombinedChart.DrawOrder[]{
+                CombinedChart.DrawOrder.BAR, CombinedChart.DrawOrder.BUBBLE, CombinedChart.DrawOrder.CANDLE, CombinedChart.DrawOrder.LINE, CombinedChart.DrawOrder.SCATTER
+        });
+        YAxis rightAxis = mChart.getAxisRight();
+        rightAxis.setDrawGridLines(false);
+        rightAxis.setAxisMinValue(0f); // this replaces setStartAtZero(true)
+
+        YAxis leftAxis = mChart.getAxisLeft();
+        leftAxis.setDrawGridLines(false);
+        leftAxis.setAxisMinValue(0f); // this replaces setStartAtZero(true)
+
+        XAxis xAxis = mChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTH_SIDED);
+
+        CombinedData data = new CombinedData(mMonths);
+
+        data.setData(generateLineData());
+        data.setData(generateBarData());
+
+        mChart.setData(data);
+        mChart.invalidate();
         return view;
+    }
+
+
+    private LineData generateLineData() {
+
+        LineData d = new LineData();
+
+        ArrayList<Entry> entries = new ArrayList<Entry>();
+
+        for (int index = 0; index < itemcount; index++)
+            entries.add(new Entry(getRandom(task.getMilestoneLimit() - 3, +3), index));
+
+        LineDataSet set = new LineDataSet(entries, "Milestone Set");
+        set.setColor(Color.rgb(255, 64, 129));
+        set.setLineWidth(2.5f);
+        set.setCircleColor(Color.rgb(255, 64, 129));
+        set.setCircleRadius(5f);
+        set.setFillColor(Color.rgb(255, 64, 129));
+        set.setDrawCubic(true);
+        set.setDrawValues(true);
+        set.setValueTextSize(10f);
+        set.setValueTextColor(Color.rgb(255, 64, 129));
+
+        set.setAxisDependency(YAxis.AxisDependency.LEFT);
+
+        d.addDataSet(set);
+
+        return d;
+    }
+
+    private BarData generateBarData() {
+
+        BarData d = new BarData();
+
+        ArrayList<BarEntry> entries = new ArrayList<BarEntry>();
+
+        for (int index = 0; index < itemcount; index++)
+            entries.add(new BarEntry(getRandom(task.getMilestoneLimit() - 5, +7), index));
+
+        BarDataSet set = new BarDataSet(entries, "Achieved");
+        set.setColor(Color.rgb(63, 81, 181));
+        set.setValueTextColor(Color.rgb(63, 81, 181));
+        set.setValueTextSize(10f);
+        d.addDataSet(set);
+
+        set.setAxisDependency(YAxis.AxisDependency.LEFT);
+
+        return d;
+    }
+
+    private float getRandom(float range, float startsfrom) {
+        return (float) (Math.random() * range) + startsfrom;
     }
 
     @Override
@@ -140,7 +242,7 @@ public class TaskDetailsFragment extends Fragment implements EditTaskFragment.On
                     }
                     presenter.updateTask(task);
                 } else if (task.getMilestoneUnits().equalsIgnoreCase(MilestoneUnitTypeEnum.UNLOCKS.name())) {
-
+//                    getActivity().registerReceiver(receiver, new IntentFilter("android.intent.action.USER_PRESENT"));
                 } else if (task.getMilestoneUnits().equalsIgnoreCase(MilestoneUnitTypeEnum.MINUTES.name())) {
 
                 }
@@ -152,6 +254,15 @@ public class TaskDetailsFragment extends Fragment implements EditTaskFragment.On
     @Override
     public void onResume() {
         super.onResume();
+        if (task.getStatus().equals(TaskStatusEnum.STARTED.name())) {
+//            createAndSendNewTaskStatistik(String.valueOf(applicationPreferences.getUnlockCount()));
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+//        getActivity().unregisterReceiver(receiver);
     }
 
     @Override
@@ -172,8 +283,8 @@ public class TaskDetailsFragment extends Fragment implements EditTaskFragment.On
                     .getMilestoneLimit(), task.getMilestoneUnits()));
             progressVlue.setText(String.format(getContext().getString(R.string.format_milestone), task
                     .getCurrentMilestoneValue(), task.getMilestoneUnits()));
-            progressBar.setMax((int)task.getMilestoneLimit());
-            progressBar.setProgress((int)task.getCurrentMilestoneValue());
+            progressBar.setMax((int) task.getMilestoneLimit());
+            progressBar.setProgress((int) task.getCurrentMilestoneValue());
             presenter.updateTask(task);
         }
     }
@@ -259,6 +370,7 @@ public class TaskDetailsFragment extends Fragment implements EditTaskFragment.On
                     statistics.setId(System.currentTimeMillis());
                     presenter.sendData(statistics);
 
+                    createAndSendNewTaskStatistik(val.asString());
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -268,6 +380,7 @@ public class TaskDetailsFragment extends Fragment implements EditTaskFragment.On
                 }
             }
         };
+
 
         Fitness.SensorsApi.add(
                 mClient,
@@ -287,6 +400,16 @@ public class TaskDetailsFragment extends Fragment implements EditTaskFragment.On
                         }
                     }
                 });
+    }
+
+    private void createAndSendNewTaskStatistik(String value) {
+        TaskStatistics statistics = new TaskStatistics();
+        task.setCurrentMilestoneValue(Long.valueOf(value));
+        statistics.setMilestoneValue(task.getCurrentMilestoneValue());
+        statistics.setMilestoneLimit(task.getMilestoneLimit());
+        statistics.setTaskId(task.getId());
+        statistics.setDate(System.currentTimeMillis());
+        presenter.sendData(statistics);
     }
 
     private void unregisterFitnessDataListener() {

@@ -28,7 +28,6 @@ import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends BaseActivity implements AccountsMvp.View, UserMvp.View{
     public static final String USER_KEY = "user_key";
-    private PhoneUnlockedReceiver receiver;
 
     private AccountViewHolder primaryAccountHolder;
     private AccountViewHolder savingsAccountHolder;
@@ -54,7 +53,6 @@ public class MainActivity extends BaseActivity implements AccountsMvp.View, User
 
         userSettings(user);
 
-        receiver = new PhoneUnlockedReceiver();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, HomeFragment.newInstance()).commit();
     }
 
@@ -75,7 +73,6 @@ public class MainActivity extends BaseActivity implements AccountsMvp.View, User
             savingsAccountHolder.configureView();
         }
 
-        receiver = new PhoneUnlockedReceiver();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, AllTasksFragment.newInstance(true)).commit();
     }
 
@@ -89,14 +86,7 @@ public class MainActivity extends BaseActivity implements AccountsMvp.View, User
     @Override
     protected void onResume() {
         super.onResume();
-        registerReceiver(receiver, new IntentFilter("android.intent.action.USER_PRESENT"));
         userPresenter.loadUser(user.getId());
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        unregisterReceiver(receiver);
     }
 
     public void onViewAll(View view) {

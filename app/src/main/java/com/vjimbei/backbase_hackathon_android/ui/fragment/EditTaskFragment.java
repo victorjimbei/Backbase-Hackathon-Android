@@ -35,7 +35,7 @@ public class EditTaskFragment extends DialogFragment implements EditTaskMvp.View
 
     public interface OnTaskUpdated {
         void refreshTask(Task task);
-    }
+}
 
     static EditTaskFragment newInstance(Task task) {
         EditTaskFragment f = new EditTaskFragment();
