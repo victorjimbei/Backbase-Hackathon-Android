@@ -31,6 +31,17 @@ public class DbClientImpl implements DbClient {
     }
 
     @Override
+    public boolean saveOrUpdateStatistics(TaskStatistics task) {
+        try {
+            databaseHelper.getTasksDao().callBatchTasks(new SaveStatisticsTask(task));
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
     public boolean saveOrUpdateAllTask(List<Task> list) {
         try {
             databaseHelper.getTasksDao().callBatchTasks(new SaveListTask(list));
@@ -46,6 +57,18 @@ public class DbClientImpl implements DbClient {
         List<Task> list;
         try {
             list = databaseHelper.getTasksDao().queryForAll();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            list = Collections.emptyList();
+        }
+        return list;
+    }
+
+    @Override
+    public List<TaskStatistics> getAllStatistics() {
+        List<TaskStatistics> list;
+        try {
+            list = databaseHelper.getTaskStatisticsDao().queryForAll();
         } catch (SQLException e) {
             e.printStackTrace();
             list = Collections.emptyList();
@@ -89,15 +112,23 @@ public class DbClientImpl implements DbClient {
         }
     }
 
-    private void saveTask(Task data){
-        for (TaskStatistics statistics : data.getTaskStatisticsList()) {
+    public class SaveStatisticsTask extends SaveDataTask<TaskStatistics> {
+
+        public SaveStatisticsTask(TaskStatistics data) {
+            super(data);
+        }
+
+        @Override
+        public void addData(TaskStatistics data) {
             try {
-                databaseHelper.getTaskStatisticsDao().createOrUpdate(statistics);
-                statistics.setTask(data);
+                databaseHelper.getTaskStatisticsDao().createOrUpdate(data);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void saveTask(Task data){
         try {
             databaseHelper.getTasksDao().createOrUpdate(data);
         } catch (SQLException e) {

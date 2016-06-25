@@ -11,9 +11,12 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.vjimbei.backbase_hackathon_android.Mvp.TasksMvp;
+import com.vjimbei.backbase_hackathon_android.Mvp.UserMvp;
 import com.vjimbei.backbase_hackathon_android.R;
 import com.vjimbei.backbase_hackathon_android.entity.Task;
+import com.vjimbei.backbase_hackathon_android.entity.User;
 import com.vjimbei.backbase_hackathon_android.presenter.TasksPresenter;
+import com.vjimbei.backbase_hackathon_android.presenter.UserPresenter;
 import com.vjimbei.backbase_hackathon_android.ui.activity.TaskDetailsActivity;
 import com.vjimbei.backbase_hackathon_android.ui.adapter.TasksAdapter;
 
@@ -23,7 +26,7 @@ import java.util.List;
 /**
  * Created by vjimbei on 6/24/2016.
  */
-public class HomeFragment extends Fragment implements TasksMvp.View, TasksAdapter.OnTaskClicked {
+public class HomeFragment extends Fragment implements TasksMvp.View, TasksAdapter.OnTaskClicked{
 
     private RecyclerView tasksRecyclerView;
     private List<Task> taskList;
@@ -45,7 +48,7 @@ public class HomeFragment extends Fragment implements TasksMvp.View, TasksAdapte
         super.onCreate(savedInstanceState);
         taskList = new ArrayList<>();
         tasksAdapter = new TasksAdapter(getContext(), this);
-        presenter = new TasksPresenter(this);
+        presenter = new TasksPresenter(getContext(), this);
     }
 
     @Override
@@ -61,6 +64,11 @@ public class HomeFragment extends Fragment implements TasksMvp.View, TasksAdapte
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setUpRecyclerview();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         presenter.loadTasks();
     }
 

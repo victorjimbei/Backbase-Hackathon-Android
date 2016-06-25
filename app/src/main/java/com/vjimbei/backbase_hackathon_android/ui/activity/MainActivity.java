@@ -11,11 +11,14 @@ import android.view.View;
 
 import com.crashlytics.android.Crashlytics;
 import com.vjimbei.backbase_hackathon_android.Mvp.AccountsMvp;
+import com.vjimbei.backbase_hackathon_android.Mvp.UserMvp;
 import com.vjimbei.backbase_hackathon_android.PhoneUnlockedReceiver;
 import com.vjimbei.backbase_hackathon_android.R;
 import com.vjimbei.backbase_hackathon_android.entity.Account;
 import com.vjimbei.backbase_hackathon_android.entity.AccountTypeEnum;
 import com.vjimbei.backbase_hackathon_android.entity.User;
+import com.vjimbei.backbase_hackathon_android.presenter.UserPresenter;
+import com.vjimbei.backbase_hackathon_android.ui.fragment.HomeFragment;
 import com.vjimbei.backbase_hackathon_android.ui.fragment.AllTasksFragment;
 import com.vjimbei.backbase_hackathon_android.ui.view.AccountViewHolder;
 
@@ -23,24 +26,44 @@ import java.util.List;
 
 import io.fabric.sdk.android.Fabric;
 
-public class MainActivity extends BaseActivity implements AccountsMvp.View {
+public class MainActivity extends BaseActivity implements AccountsMvp.View, UserMvp.View{
     public static final String USER_KEY = "user_key";
     private PhoneUnlockedReceiver receiver;
 
     private AccountViewHolder primaryAccountHolder;
     private AccountViewHolder savingsAccountHolder;
+    private User user;
+    private UserPresenter userPresenter;
+
+    private CardView primaryAccountView;
+    private CardView savingsAccountView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Fabric.with(this, new Crashlytics());
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        CardView primaryAccountView = (CardView) findViewById(R.id.primary_account_container);
-        CardView savingsAccountView = (CardView) findViewById(R.id.savings_account_container);
+        primaryAccountView = (CardView) findViewById(R.id.primary_account_container);
+        savingsAccountView = (CardView) findViewById(R.id.savings_account_container);
 
         setSupportActionBar(toolbar);
 
-        User user = getIntent().getParcelableExtra(USER_KEY);
+        userPresenter = new UserPresenter(this);
+
+        user = getIntent().getParcelableExtra(USER_KEY);
+
+        userSettings(user);
+
+        receiver = new PhoneUnlockedReceiver();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, HomeFragment.newInstance()).commit();
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_main;
+    }
+
+    private void userSettings(User user){
         if (user != null) {
             Account primary = user.getMainAccount();
             Account savings = user.getSavingAccount();
@@ -57,11 +80,6 @@ public class MainActivity extends BaseActivity implements AccountsMvp.View {
     }
 
     @Override
-    protected int getLayoutId() {
-        return R.layout.activity_main;
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
@@ -72,6 +90,7 @@ public class MainActivity extends BaseActivity implements AccountsMvp.View {
     protected void onResume() {
         super.onResume();
         registerReceiver(receiver, new IntentFilter("android.intent.action.USER_PRESENT"));
+        userPresenter.loadUser(user.getId());
     }
 
     @Override
@@ -97,6 +116,11 @@ public class MainActivity extends BaseActivity implements AccountsMvp.View {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void showUser(User user) {
+        userSettings(user);
     }
 
     @Override

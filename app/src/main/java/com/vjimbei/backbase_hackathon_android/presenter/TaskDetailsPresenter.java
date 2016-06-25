@@ -6,6 +6,7 @@ import com.vjimbei.backbase_hackathon_android.Mvp.TaskDetailsMvp;
 import com.vjimbei.backbase_hackathon_android.entity.Task;
 import com.vjimbei.backbase_hackathon_android.entity.TaskStatistics;
 import com.vjimbei.backbase_hackathon_android.model.TaskDetailsModel;
+import com.vjimbei.backbase_hackathon_android.rest.error.RCError;
 
 public class TaskDetailsPresenter implements TaskDetailsMvp.Presenter, TaskDetailsModel.OnTaskUpdateListener {
 
@@ -31,13 +32,14 @@ public class TaskDetailsPresenter implements TaskDetailsMvp.Presenter, TaskDetai
     }
 
     @Override
-    public void onSuccessUpdated() {
+    public void onSuccessUpdated(TaskStatistics statistics) {
+        view.updateStatisticsUI(statistics);
         view.hideProgress();
-
     }
 
     @Override
-    public void onFailedToUpdate() {
+    public void onFailedToUpdate(RCError error) {
+
         view.hideProgress();
     }
 }

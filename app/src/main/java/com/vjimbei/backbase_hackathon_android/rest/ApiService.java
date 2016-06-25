@@ -2,12 +2,15 @@ package com.vjimbei.backbase_hackathon_android.rest;
 
 import com.vjimbei.backbase_hackathon_android.entity.Account;
 import com.vjimbei.backbase_hackathon_android.entity.Plan;
+import com.vjimbei.backbase_hackathon_android.entity.TaskStatistics;
 import com.vjimbei.backbase_hackathon_android.entity.User;
 
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface ApiService {
@@ -27,6 +30,6 @@ public interface ApiService {
     @GET("/user/{id}/currentPlan")
     Call<Plan> getUserCurrentPlan(@Path("id") long id);
 
-
-
+    @POST("/task")
+    Call<TaskStatistics> createTask(@Body TaskStatistics task);
 }

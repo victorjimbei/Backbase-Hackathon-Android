@@ -72,6 +72,11 @@ public class AllTasksFragment extends Fragment implements TasksMvp.View, TasksAd
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setUpRecyclerview();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         presenter.loadTasks();
     }
 
