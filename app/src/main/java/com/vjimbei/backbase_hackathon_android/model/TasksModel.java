@@ -6,6 +6,7 @@ import com.vjimbei.backbase_hackathon_android.Mvp.TasksMvp;
 import com.vjimbei.backbase_hackathon_android.db.DbClient;
 import com.vjimbei.backbase_hackathon_android.db.DbClientImpl;
 import com.vjimbei.backbase_hackathon_android.entity.Task;
+import com.vjimbei.backbase_hackathon_android.entity.TaskStatusEnum;
 import com.vjimbei.backbase_hackathon_android.listeners.OnLoadTasks;
 import com.vjimbei.backbase_hackathon_android.ui.utils.ApplicationPreferences;
 import com.vjimbei.backbase_hackathon_android.ui.utils.DateUtils;

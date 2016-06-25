@@ -54,7 +54,7 @@ public class AllTasksFragment extends Fragment implements TasksMvp.View, TasksAd
         super.onCreate(savedInstanceState);
         taskList = new ArrayList<>();
         tasksAdapter = new TasksAdapter(getContext(), this);
-        presenter = new TasksPresenter(this);
+        presenter = new TasksPresenter(getContext(), this);
         sortActive = getArguments().getBoolean(EXTRA_ACTIVE_TASKS);
     }
 
