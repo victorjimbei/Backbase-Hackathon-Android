@@ -165,5 +165,7 @@
             android:layout_marginBottom="@dimen/spacing_normal"
             android:text="@string/start_label"/>
 
+        <include layout="@layout/layout_progress"/>
+
     </RelativeLayout>
 </ScrollView>

@@ -29,7 +29,7 @@ public class Task implements Parcelable {
     private String status;
     @DatabaseField(columnName = "goodSide")
     private String goodSide;
-    @ForeignCollectionField(foreignFieldName = "taskStatistics", columnName = "statistics")
+    @ForeignCollectionField(foreignFieldName = "task", columnName = "statistics")
     private Collection<TaskStatistics> taskStatisticsList;
     @DatabaseField(columnName = "isLoadedToServer")
     private boolean isLoadedToServer;
