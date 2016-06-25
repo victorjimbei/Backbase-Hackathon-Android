@@ -40,11 +40,6 @@ public class TaskDetailsModel implements TaskDetailsMvp.Model {
     @Override
     public void updateTask(Task task) {
         dbClient.saveOrUpdateTask(task);//todo integrate api
-
-        List<Task> l = dbClient.getAllTasks();
-        List<TaskStatistics> ls = dbClient.getAllStatistics();
-        l.size();
-        ls.size();
     }
 
     @Override

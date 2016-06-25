@@ -18,15 +18,15 @@ import com.vjimbei.backbase_hackathon_android.entity.Account;
 import com.vjimbei.backbase_hackathon_android.entity.AccountTypeEnum;
 import com.vjimbei.backbase_hackathon_android.entity.User;
 import com.vjimbei.backbase_hackathon_android.presenter.UserPresenter;
-import com.vjimbei.backbase_hackathon_android.ui.fragment.HomeFragment;
 import com.vjimbei.backbase_hackathon_android.ui.fragment.AllTasksFragment;
+import com.vjimbei.backbase_hackathon_android.ui.fragment.HomeFragment;
 import com.vjimbei.backbase_hackathon_android.ui.view.AccountViewHolder;
 
 import java.util.List;
 
 import io.fabric.sdk.android.Fabric;
 
-public class MainActivity extends BaseActivity implements AccountsMvp.View, UserMvp.View{
+public class MainActivity extends BaseActivity implements AccountsMvp.View, UserMvp.View {
     public static final String USER_KEY = "user_key";
 
     private AccountViewHolder primaryAccountHolder;
@@ -34,6 +34,7 @@ public class MainActivity extends BaseActivity implements AccountsMvp.View, User
     private User user;
     private UserPresenter userPresenter;
 
+    private PhoneUnlockedReceiver receiver;
     private CardView primaryAccountView;
     private CardView savingsAccountView;
 
@@ -52,7 +53,7 @@ public class MainActivity extends BaseActivity implements AccountsMvp.View, User
         user = getIntent().getParcelableExtra(USER_KEY);
 
         userSettings(user);
-
+        receiver = new PhoneUnlockedReceiver();
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, HomeFragment.newInstance()).commit();
     }
 
@@ -61,7 +62,7 @@ public class MainActivity extends BaseActivity implements AccountsMvp.View, User
         return R.layout.activity_main;
     }
 
-    private void userSettings(User user){
+    private void userSettings(User user) {
         if (user != null) {
             Account primary = user.getMainAccount();
             Account savings = user.getSavingAccount();
@@ -83,10 +84,18 @@ public class MainActivity extends BaseActivity implements AccountsMvp.View, User
         return true;
     }
 
+
     @Override
     protected void onResume() {
         super.onResume();
         userPresenter.loadUser(user.getId());
+        registerReceiver(receiver, new IntentFilter("android.intent.action.USER_PRESENT"));
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(receiver);
     }
 
     public void onViewAll(View view) {

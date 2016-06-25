@@ -15,6 +15,8 @@ public class ApplicationPreferences {
     private static final String UNLOCK_LAST_DATE = APP_PACKAGE + "LAST_UNLOCK_DATE";
     private static final String CREATE_FIRST_TIME_TASK = APP_PACKAGE + "FIRST_TIME_TASK";
     private static final String UNLOCK_COUNT = APP_PACKAGE + "UNLOCK_COUNT";
+    private static final String UNLOCK_TACK_ACTIVE = APP_PACKAGE + "UNLOCK_TACK_ACTIVE";
+    private static final String UNLOCK_LIMIT = APP_PACKAGE + "UNLOCK_LIMIT";
 
     private SharedPreferences mPreferences;
 
@@ -50,5 +52,25 @@ public class ApplicationPreferences {
 
     public int getUnlockCount() {
         return mPreferences.getInt(UNLOCK_COUNT, 0);
+    }
+
+    public void setUnlockTaskActive(boolean value) {
+        SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putBoolean(UNLOCK_TACK_ACTIVE, value);
+        editor.apply();
+    }
+
+    public boolean isUnlockTaskActive() {
+        return mPreferences.getBoolean(UNLOCK_TACK_ACTIVE, false);
+    }
+
+    public void setUnlockLimit(long count) {
+        SharedPreferences.Editor editor = mPreferences.edit();
+        editor.putLong(UNLOCK_LIMIT, count);
+        editor.apply();
+    }
+
+    public long getUnlockLimit() {
+        return mPreferences.getLong(UNLOCK_LIMIT, 0);
     }
 }

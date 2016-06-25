@@ -12,6 +12,8 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,8 +51,9 @@ import com.google.android.gms.fitness.request.SensorRequest;
 import com.google.android.gms.fitness.result.DataSourcesResult;
 import com.vjimbei.backbase_hackathon_android.BuildConfig;
 import com.vjimbei.backbase_hackathon_android.Mvp.TaskDetailsMvp;
-import com.vjimbei.backbase_hackathon_android.PhoneUnlockedReceiver;
 import com.vjimbei.backbase_hackathon_android.R;
+import com.vjimbei.backbase_hackathon_android.db.DbClientImpl;
+import com.vjimbei.backbase_hackathon_android.db.loader.TaskLoader;
 import com.vjimbei.backbase_hackathon_android.entity.MilestoneUnitTypeEnum;
 import com.vjimbei.backbase_hackathon_android.entity.Task;
 import com.vjimbei.backbase_hackathon_android.entity.TaskStatistics;
@@ -64,14 +67,14 @@ import java.util.concurrent.TimeUnit;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TaskDetailsFragment extends Fragment implements EditTaskFragment.OnTaskUpdated, TaskDetailsMvp.View {
+public class TaskDetailsFragment extends Fragment implements EditTaskFragment.OnTaskUpdated, TaskDetailsMvp.View, LoaderManager.LoaderCallbacks<Task> {
 
     private static final String ARGS_TASK = "args.task.details";
     private static final int DIALOG_FRAGMENT = 112;
     public static final String TAG = "BasicSensorsApi";
-    private PhoneUnlockedReceiver receiver;
-    private ApplicationPreferences applicationPreferences;
 
+    private ApplicationPreferences applicationPreferences;
+    private static final int loader_id = 101;
     private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
 
     private TextView title;
@@ -112,7 +115,8 @@ public class TaskDetailsFragment extends Fragment implements EditTaskFragment.On
             requestPermissions();
         }
         applicationPreferences = new ApplicationPreferences(getActivity());
-        receiver = new PhoneUnlockedReceiver();
+
+        getLoaderManager().restartLoader(loader_id, null, this);
     }
 
     @Override
@@ -168,7 +172,7 @@ public class TaskDetailsFragment extends Fragment implements EditTaskFragment.On
         ArrayList<Entry> entries = new ArrayList<Entry>();
 
         for (int index = 0; index < itemcount; index++)
-            entries.add(new Entry(getRandom(task.getMilestoneLimit() - 3, +3), index));
+            entries.add(new Entry(getRandom(task.getMilestoneLimit() - 3, task.getMilestoneLimit() + 3), index));
 
         LineDataSet set = new LineDataSet(entries, "Milestone Set");
         set.setColor(Color.rgb(255, 64, 129));
@@ -195,7 +199,7 @@ public class TaskDetailsFragment extends Fragment implements EditTaskFragment.On
         ArrayList<BarEntry> entries = new ArrayList<BarEntry>();
 
         for (int index = 0; index < itemcount; index++)
-            entries.add(new BarEntry(getRandom(task.getMilestoneLimit() - 5, +7), index));
+            entries.add(new BarEntry(getRandom(task.getMilestoneLimit() - 5, task.getMilestoneLimit() + 7), index));
 
         BarDataSet set = new BarDataSet(entries, "Achieved");
         set.setColor(Color.rgb(63, 81, 181));
@@ -242,11 +246,11 @@ public class TaskDetailsFragment extends Fragment implements EditTaskFragment.On
                     }
                     presenter.updateTask(task);
                 } else if (task.getMilestoneUnits().equalsIgnoreCase(MilestoneUnitTypeEnum.UNLOCKS.name())) {
-//                    getActivity().registerReceiver(receiver, new IntentFilter("android.intent.action.USER_PRESENT"));
+                    applicationPreferences.setUnlockTaskActive(true);
+                    applicationPreferences.setUnlockLimit(task.getMilestoneLimit());
                 } else if (task.getMilestoneUnits().equalsIgnoreCase(MilestoneUnitTypeEnum.MINUTES.name())) {
 
                 }
-
             }
         });
     }
@@ -254,16 +258,12 @@ public class TaskDetailsFragment extends Fragment implements EditTaskFragment.On
     @Override
     public void onResume() {
         super.onResume();
-        if (task.getStatus().equals(TaskStatusEnum.STARTED.name())) {
-//            createAndSendNewTaskStatistik(String.valueOf(applicationPreferences.getUnlockCount()));
+        if (task.getStatus().equals(TaskStatusEnum.STARTED.name()) && task.getMilestoneUnits().equalsIgnoreCase(MilestoneUnitTypeEnum.UNLOCKS.name())) {
+            task.setCurrentMilestoneValue(applicationPreferences.getUnlockCount());
+            updateUI(task);
         }
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-//        getActivity().unregisterReceiver(receiver);
-    }
 
     @Override
     public void refreshTask(Task task) {
@@ -517,6 +517,21 @@ public class TaskDetailsFragment extends Fragment implements EditTaskFragment.On
                 updateUI(statistics.getTask());
             }
         });
+    }
+
+    @Override
+    public Loader<Task> onCreateLoader(int i, Bundle bundle) {
+        return new TaskLoader(getActivity(), new DbClientImpl(getActivity()), task.getId());
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Task> loader, Task data) {
+        updateUI(task);
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Task> loader) {
+
     }
 
 }
